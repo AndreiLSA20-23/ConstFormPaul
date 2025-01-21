@@ -1,0 +1,42 @@
+<div>
+  <!-- Основное отображение компонентов через маршруты -->
+  <ng-container *ngIf="!isPrivacyPolicyVisible">
+    <div class="component-container">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- Кнопки управления -->
+    <div class="navigation-buttons mt-3 d-flex justify-content-start">
+      <button
+        *ngIf="canShowPreview()"
+        (click)="red()"
+        class="btn btn-secondary me-2"
+        aria-label="Previous Component"
+      >
+        Previous
+      </button>
+      <button
+        *ngIf="canShowNext()"
+        (click)="next()"
+        class="btn btn-primary"
+        aria-label="Next Component"
+      >
+        Next
+      </button>
+    </div>
+
+    <!-- Ссылка для отображения политики конфиденциальности -->
+    <div class="privacy-policy-link text-center mt-4">
+      <!-- Вызываем метод для показа политики, а не переходим по маршруту -->
+      <a (click)="showPrivacyPolicy()" class="text-muted small" style="cursor: pointer;">
+        View Privacy Policy
+      </a>
+    </div>
+  </ng-container>
+
+  <!-- Отображение политики конфиденциальности -->
+  <ng-container *ngIf="isPrivacyPolicyVisible">
+    <!-- Передаем событие back для возврата -->
+    <app-privacy-policy (back)="hidePrivacyPolicy()"></app-privacy-policy>
+  </ng-container>
+</div>

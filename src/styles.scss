@@ -1,0 +1,117 @@
+/* You can add global styles to this file, and also import other style files */
+/* Общие стили */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card-header,
+.card-footer {
+  border-radius: inherit;
+}
+
+h2,
+h3 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  color: #d9534f;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+button.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover {
+  background-color: #45a049;
+}
+
+.shrink-wrap-center {
+  margin: auto;
+}
+
+/* Стили для ссылок */
+a {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+a:active {
+  color: #003865;
+}
+
+/* Таблицы */
+.table-bordered {
+  border: 1px solid #ddd;
+  width: 100%;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-bordered th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}

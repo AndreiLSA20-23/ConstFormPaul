@@ -1,0 +1,785 @@
+{
+  "variables": {
+    "felonyConvictionsConst": 7,
+    "sampleCmpAddressConst": "13450 KING RD., LEMONT, IL 630439",
+    "homeHistoryConst": 5,
+    "driveLicHistoryConst": 4,
+    "empHistoryConst": 10,
+    "personPhoneOrgConst": "708-252-3829",
+    "ageConst": 23,
+    "trafficAccidentsConst": 6,
+    "companyNameConst": "GOOD NEWS CARRIER"
+  },
+  "components": {
+    "app-start": {
+      "app-text-display": {
+        "pagen_0": {
+          "elements": [
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-1"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "heading2",
+                      "type": "heading",
+                      "content": "Application Instructions",
+                      "cssClasses": [
+                        "text-center",
+                        "text-dark",
+                        "mb-1",
+                        "line-height-small"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-1"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph3",
+                      "type": "paragraph",
+                      "label": "Intro",
+                      "defaultValue": "<p>Thank you for your interest in:</p>",
+                      "cssClasses": [
+                        "mb-1",
+                        "line-height-small"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-1"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "list2",
+                      "type": "paragraph",
+                      "label": "Company Information",
+                      "defaultValue": "{{companyNameConst}} {{sampleCmpAddressConst}}",
+                      "cssClasses": [
+                        "mb-1",
+                        "line-height-small"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-1"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph4",
+                      "type": "paragraph",
+                      "label": "Work History Instructions",
+                      "defaultValue": "<p>Please complete our online operator work history. Incomplete information will delay the processing of your work history or prevent it from being submitted.</p>",
+                      "cssClasses": [
+                        "mb-1",
+                        "line-height-small"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph5",
+                      "type": "paragraph",
+                      "label": "Time Estimate",
+                      "defaultValue": "<p>This process will take 20-30 minutes, so please make sure you have time to complete this before you get started.</p>",
+                      "required": false,
+                      "options": null,
+                      "ifRequiredText": null,
+                      "validation": null,
+                      "hasChild": false,
+                      "showChildOnValue": null,
+                      "action": null
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "list3",
+                      "type": "list",
+                      "label": "Required Information",
+                      "defaultValue": "<h5 class='text-danger mt-4'>Required Information</h5>",
+                      "items": [
+                        "Social Security Number",
+                        "Home address history for the past {{homeHistoryConst}} years",
+                        "Driver's license history for the past {{driveLicHistoryConst}} years",
+                        "Employment history up to {{empHistoryConst}} years",
+                        "History of traffic accidents from the last {{trafficAccidentsConst}} years",
+                        "Military history (if applicable)"
+                      ],
+                      "required": false,
+                      "options": null,
+                      "ifRequiredText": null,
+                      "validation": null,
+                      "hasChild": true,
+                      "showChildOnValue": null,
+                      "action": null
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph6",
+                      "type": "paragraph",
+                      "label": "Field Requirement Explanation",
+                      "defaultValue": "<p>Required entry fields are followed by *, meaning you must provide the requested information to continue.</p>",
+                      "required": false,
+                      "options": null,
+                      "ifRequiredText": null,
+                      "validation": null,
+                      "hasChild": false,
+                      "showChildOnValue": null,
+                      "action": null
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "heading3",
+                      "type": "heading",
+                      "label": "Contact Information",
+                      "defaultValue": "<h5>Contact Information</h5>",
+                      "required": false,
+                      "options": null,
+                      "ifRequiredText": null,
+                      "validation": null,
+                      "hasChild": false,
+                      "showChildOnValue": null,
+                      "action": null
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph7",
+                      "type": "paragraph",
+                      "label": "Contact Details",
+                      "defaultValue": "<p>If you have any questions, please contact {{companyNameConst}} at {{personPhoneOrgConst}}.</p>",
+                      "required": false,
+                      "options": null,
+                      "ifRequiredText": null,
+                      "validation": null,
+                      "hasChild": false,
+                      "showChildOnValue": null,
+                      "action": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "app-req": {
+      "app-text-display": {
+        "pagen_0": {
+          "elements": [
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "heading1",
+                      "type": "heading",
+                      "content": "Owner Operator Minimum Requirements",
+                      "cssClasses": [
+                        "text-center",
+                        "text-dark",
+                        "mb-4"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph1",
+                      "type": "paragraph",
+                      "label": "Introduction",
+                      "defaultValue": "<p>To qualify with <strong>{{companyNameConst}}</strong>, you must meet the following criteria:</p>",
+                      "cssClasses": [
+                        "mb-4"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "list1",
+                      "type": "list",
+                      "label": "Owner Operator Minimum Requirements",
+                      "defaultValue": "<h5 class='text-danger mt-4'>Owner Operator Minimum Requirements</h5>",
+                      "items": [
+                        "Must be at least {{ageConst}} years old and hold a valid Class A CDL (or Class B for Expedited) with HazMat (H) or combination (X) endorsement.",
+                        "Have no more than two at-fault accidents and two moving violations within the past 36 months, or no more than one at-fault accident and three moving violations within the same time period. No involvement in preventable DOT-recordable accidents in the past 12 months.",
+                        "Must have one year (six months for Expedited) of verifiable over-the-road driving experience within the past three years, or two years of verifiable experience in the last five years with a Class A (or Class B for Expedited) CDL operating equipment similar to what will be used at {{companyNameConst}}.",
+                        "No felony convictions in the past {{felonyConvictionsConst}} years. Other felony or misdemeanor charges will be reviewed on a case-by-case basis.",
+                        "No positive drug or alcohol test results, including refusals or pre-employment test results.",
+                        "No suspensions of more than 30 days for moving violations in the last 36 months.",
+                        "No more than one serious violation, as defined in Table 2 of section 383.51 of the FMCSR handbook, in the previous 36 months prior to qualification.",
+                        "No railroad-highway grade crossing violations, as defined in Table 3 of section 383.51 of the FMCSR handbook, within the previous 36 months.",
+                        "No citations or convictions for Reckless Driving or Careless Endangerment during the 36-month period before the MVR order date.",
+                        "No DUI charges during the 60-month period before the MVR order date, in a personal or non-commercial vehicle, and never in a commercial vehicle.",
+                        "Must be proficient enough in English to understand highway traffic signs and signals, respond to official inquiries, complete reports and records, and communicate with the public."
+                      ],
+                      "cssClasses": [
+                        "text-danger",
+                        "mt-4"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "paragraph2",
+                      "type": "paragraph",
+                      "label": "Insurance Requirements",
+                      "defaultValue": "<p>These are the minimum operator qualification standards subject to DOT requirements, and <strong>{{companyNameConst}}</strong> may impose more stringent requirements at its discretion. The decision to qualify an operator will be made by <strong>{{companyNameConst}}</strong> on a case-by-case basis.</p>",
+                      "cssClasses": [
+                        "mb-4"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "app-perdates": {
+      "id": "form1",
+      "type": "form",
+      "formGroup": "userForm",
+      "submitAction": "onSubmit",
+      "pages": {
+        "pagen_0": {
+          "elements": [
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "heading1",
+                      "type": "heading",
+                      "content": "User Information Form",
+                      "cssClasses": [
+                        "h3",
+                        "text-center",
+                        "mb-3"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-3"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "dropdown1",
+                      "type": "dropdown",
+                      "label": "Suffix",
+                      "required": true,
+                      "options": [
+                        "Jr.",
+                        "II",
+                        "Sr.",
+                        "III",
+                        "IV",
+                        "V"
+                      ],
+                      "cssClasses": [
+                        "form-select",
+                        "form-select-sm"
+                      ],
+                      "formControlName": "suffix"
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "textbox1",
+                      "type": "textbox",
+                      "label": "First Name",
+                      "required": true,
+                      "placeholder": "Enter your first name",
+                      "validation": "^[A-Za-z]+$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "firstName",
+                      "validationMessage": "First Name must contain only letters."
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "textbox2",
+                      "type": "textbox",
+                      "label": "Middle Name",
+                      "required": false,
+                      "placeholder": "Enter your middle name",
+                      "validation": "^[A-Za-z]*$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "middleName"
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "textbox3",
+                      "type": "textbox",
+                      "label": "Last Name",
+                      "required": true,
+                      "placeholder": "Enter your last name",
+                      "validation": "^[A-Za-z]+$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "lastName",
+                      "validationMessage": "Last Name must contain only letters."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-3"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "birthday",
+                      "type": "date",
+                      "label": "Birthday",
+                      "required": true,
+                      "placeholder": "Enter your birthday",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "birthday",
+                      "validationMessage": "Please select a valid date."
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "email",
+                      "type": "textbox",
+                      "label": "Email",
+                      "required": true,
+                      "placeholder": "Enter your email",
+                      "validation": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "email",
+                      "validationMessage": "Please enter a valid email address."
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "driverLicense",
+                      "type": "textbox",
+                      "label": "Driver License Number",
+                      "required": true,
+                      "placeholder": "Enter your driver license number",
+                      "validation": "^[A-Za-z0-9]+$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "driverLicense",
+                      "validationMessage": "Driver License Number is required."
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-12",
+                    "col-md-3"
+                  ],
+                  "elements": [
+                    {
+                      "id": "phoneNumber",
+                      "type": "textbox",
+                      "label": "Phone Number",
+                      "required": true,
+                      "placeholder": "Enter your phone number",
+                      "validation": "^\\d+$",
+                      "cssClasses": [
+                        "form-control"
+                      ],
+                      "formControlName": "phoneNumber",
+                      "validationMessage": "Phone Number must contain only digits."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-3"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-md-6"
+                  ],
+                  "elements": [
+                    {
+                      "id": "checkbox2",
+                      "type": "checkbox",
+                      "label": "I confirm that I have read the terms and conditions.",
+                      "required": true,
+                      "defaultValue": false,
+                      "validationMessage": "You must confirm this field.",
+                      "cssClasses": [
+                        "form-check-input"
+                      ],
+                      "formControlName": "termsConfirmation"
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-md-6"
+                  ],
+                  "elements": [
+                    {
+                      "id": "checkboxPromoEmails",
+                      "type": "checkbox",
+                      "label": "Yes, I agree to receive information concerning future opportunities or promotions by email or other commercial electronic communications.",
+                      "required": true,
+                      "defaultValue": false,
+                      "cssClasses": [
+                        "form-check-input"
+                      ],
+                      "formControlName": "promoEmails"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "row",
+              "cssClasses": [
+                "d-flex",
+                "align-items-center",
+                "mb-3"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-auto"
+                  ],
+                  "elements": [
+                    {
+                      "id": "buttonSubmit",
+                      "type": "button",
+                      "label": "Submit",
+                      "action": {
+                        "type": "submit",
+                        "callback": "onSubmit"
+                      },
+                      "cssClasses": [
+                        "btn",
+                        "btn-success",
+                        "custom-btn",
+                        "mx-1"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-auto"
+                  ],
+                  "elements": [
+                    {
+                      "id": "buttonCancel",
+                      "type": "button",
+                      "label": "Cancel",
+                      "action": {
+                        "type": "button",
+                        "callback": "onCancel"
+                      },
+                      "cssClasses": [
+                        "btn",
+                        "btn-danger",
+                        "custom-btn",
+                        "mx-1"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "cssClasses": [
+                    "col-auto"
+                  ],
+                  "elements": [
+                    {
+                      "id": "buttonEdit",
+                      "type": "button",
+                      "label": "Edit",
+                      "action": {
+                        "type": "button",
+                        "callback": "onEdit"
+                      },
+                      "cssClasses": [
+                        "btn",
+                        "btn-primary",
+                        "custom-btn",
+                        "mx-1"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "pagen_1": {
+          "elements": [
+            {
+              "type": "row",
+              "cssClasses": [
+                "row",
+                "mb-4"
+              ],
+              "columns": [
+                {
+                  "cssClasses": [
+                    "col-12"
+                  ],
+                  "elements": [
+                    {
+                      "id": "heading2",
+                      "type": "heading",
+                      "content": "Additional Information",
+                      "cssClasses": [
+                        "h3",
+                        "text-center",
+                        "mb-3"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+
+  }
+}
