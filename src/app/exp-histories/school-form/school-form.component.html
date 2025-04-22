@@ -1,0 +1,81 @@
+<h5 class="mb-3">School History</h5>
+<form [formGroup]="schoolForm" (ngSubmit)="onSave()" class="row g-3">
+    <div class="col-12">
+        <label for="schoolName" class="form-label">School Name:</label>
+        <input id="schoolName" formControlName="schoolName" type="text" class="form-control" />
+        <div *ngIf="schoolForm.get('schoolName')?.touched && schoolForm.get('schoolName')?.invalid" class="text-danger">
+            School Name is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="startDate" class="form-label">Start Date:</label>
+        <input id="startDate" formControlName="startDate" type="date" class="form-control" />
+        <div *ngIf="schoolForm.get('startDate')?.touched && schoolForm.get('startDate')?.invalid" class="text-danger">
+            Start Date is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="endDate" class="form-label">End Date:</label>
+        <input id="endDate" formControlName="endDate" type="date" class="form-control" />
+        <div *ngIf="schoolForm.get('endDate')?.touched && schoolForm.get('endDate')?.invalid" class="text-danger">
+            End Date is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="countrySchool" class="form-label">Country:</label>
+        <select id="countrySchool" formControlName="countrySchool" (change)="onCountryChange()" class="form-select">
+            <option value="">Select a country</option>
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+        </select>
+        <div *ngIf="schoolForm.get('countrySchool')?.touched && schoolForm.get('countrySchool')?.invalid"
+            class="text-danger">
+            Country is required.
+        </div>
+    </div>
+
+    <div class="col-md-6" *ngIf="schoolForm.get('countrySchool')?.value === 'United States'">
+        <label for="stateSchool" class="form-label">State/Province:</label>
+        <select id="stateSchool" formControlName="stateSchool" class="form-select">
+            <option value="">Select a state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label for="city" class="form-label">City:</label>
+        <input id="city" formControlName="city" type="text" class="form-control" />
+        <div *ngIf="schoolForm.get('city')?.touched && schoolForm.get('city')?.invalid" class="text-danger">
+            City is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="phoneSchool" class="form-label">Phone:</label>
+        <input id="phoneSchool" formControlName="phoneSchool" type="text" class="form-control" />
+        <div *ngIf="schoolForm.get('phoneSchool')?.touched && schoolForm.get('phoneSchool')?.invalid"
+            class="text-danger">
+            Phone is required and must contain only numbers.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="fieldOfStudy" class="form-label">What did you study? (e.g., Accounting, Mechanic):</label>
+        <input id="fieldOfStudy" formControlName="fieldOfStudy" type="text" class="form-control" />
+        <div *ngIf="schoolForm.get('fieldOfStudy')?.touched && schoolForm.get('fieldOfStudy')?.invalid"
+            class="text-danger">
+            Field of Study is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="graduationDate" class="form-label">Graduation Date (leave blank if no graduation):</label>
+        <input id="graduationDate" formControlName="graduationDate" type="date" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!schoolForm.valid">Add data</button>
+    </div>
+</form>

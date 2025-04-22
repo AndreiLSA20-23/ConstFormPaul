@@ -1,0 +1,160 @@
+<h5 class="mb-3">Employer/Contract Information</h5>
+
+<form [formGroup]="employmentForm" (ngSubmit)="onSave()" class="row g-3">
+
+    <!-- Start and End Dates -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="startDate" class="form-label">Start Date:</label>
+            <input id="startDate" formControlName="startDate" type="date" class="form-control" />
+            <div *ngIf="isFieldInvalid('startDate')" class="text-danger">Start Date is required.</div>
+        </div>
+        <div class="col-md-6">
+            <label for="endDate" class="form-label">End Date:</label>
+            <input id="endDate" formControlName="endDate" type="date" class="form-control" />
+            <div *ngIf="isFieldInvalid('endDate')" class="text-danger">End Date is required.</div>
+        </div>
+    </div>
+
+    <!-- Country and State -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="country" class="form-label">Country:</label>
+            <select id="country" formControlName="country" (change)="onCountryChange()" class="form-select">
+                <option value="">Select a country</option>
+                <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+            </select>
+            <div *ngIf="isFieldInvalid('country')" class="text-danger">Country is required.</div>
+        </div>
+        <div class="col-md-6" *ngIf="employmentForm.get('country')?.value === 'United States'">
+            <label for="state" class="form-label">State:</label>
+            <select id="state" formControlName="state" class="form-select">
+                <option value="">Select a state</option>
+                <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+            </select>
+            <div *ngIf="isFieldInvalid('state')" class="text-danger">State is required.</div>
+        </div>
+    </div>
+
+    <!-- City and Zip Code -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="city" class="form-label">City:</label>
+            <input id="city" formControlName="city" type="text" class="form-control" />
+            <div *ngIf="isFieldInvalid('city')" class="text-danger">City is required.</div>
+        </div>
+        <div class="col-md-6">
+            <label for="zipCode" class="form-label">Zip Code:</label>
+            <input id="zipCode" formControlName="zipCode" type="text" class="form-control" />
+            <div *ngIf="isFieldInvalid('zipCode')" class="text-danger">Zip Code is required and must be numeric.</div>
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="lineAddress_1" class="form-label">Address Line 1:</label>
+            <input id="lineAddress_1" formControlName="lineAddress_1" type="text" class="form-control" />
+            <div *ngIf="isFieldInvalid('lineAddress_1')" class="text-danger">Address Line 1 is required.</div>
+        </div>
+        <div class="col-md-6">
+            <label for="lineAddress_2" class="form-label">Address Line 2:</label>
+            <input id="lineAddress_2" formControlName="lineAddress_2" type="text" class="form-control" />
+        </div>
+    </div>
+
+    <!-- Telephone and Position Held -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="telephone" class="form-label">Telephone:</label>
+            <input id="telephone" formControlName="telephone" type="text" class="form-control" />
+            <div *ngIf="isFieldInvalid('telephone')" class="text-danger">Telephone must start with "+" and contain
+                numbers only.</div>
+        </div>
+        <div class="col-md-6">
+            <label for="positionHeld" class="form-label">Position Held:</label>
+            <input id="positionHeld" formControlName="positionHeld" type="text" class="form-control" />
+            <div *ngIf="isFieldInvalid('positionHeld')" class="text-danger">Position Held is required.</div>
+        </div>
+    </div>
+
+    <!-- Company Name -->
+    <div class="row mb-3">
+        <label for="companyName" class="form-label">Company Name:</label>
+        <input id="companyName" formControlName="companyName" type="text" class="form-control" />
+        <div *ngIf="isFieldInvalid('companyName')" class="text-danger">Company Name is required.</div>
+    </div>
+
+    <!-- Reason for Leaving -->
+    <div class="row mb-3">
+        <label for="reasonForLeaving" class="form-label">Reason for Leaving:</label>
+        <textarea id="reasonForLeaving" formControlName="reasonForLeaving" class="form-control"></textarea>
+    </div>
+
+    <!-- Radio Buttons -->
+    <div class="row mb-3">
+        <label class="form-label">Were you terminated/discharged/laid off?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="terminatedYes" formControlName="terminated"
+                [value]="true" />
+            <label class="form-check-label" for="terminatedYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="terminatedNo" formControlName="terminated"
+                [value]="false" />
+            <label class="form-check-label" for="terminatedNo">No</label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="form-label">Is this your current employer?*</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="currentEmployerYes" formControlName="currentEmployer"
+                [value]="true" />
+            <label class="form-check-label" for="currentEmployerYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="currentEmployerNo" formControlName="currentEmployer"
+                [value]="false" />
+            <label class="form-check-label" for="currentEmployerNo">No</label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="form-label">May we contact this employer at this time?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="contactEmployerYes" formControlName="contactEmployer"
+                [value]="true" />
+            <label class="form-check-label" for="contactEmployerYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="contactEmployerNo" formControlName="contactEmployer"
+                [value]="false" />
+            <label class="form-check-label" for="contactEmployerNo">No</label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="form-label">Did you operate a commercial motor vehicle?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="commercialVehicleYes" formControlName="commercialVehicle"
+                [value]="true" (change)="onCommercialVehicleChange(true)" />
+            <label class="form-check-label" for="commercialVehicleYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="commercialVehicleNo" formControlName="commercialVehicle"
+                [value]="false" (change)="onCommercialVehicleChange(false)" />
+            <label class="form-check-label" for="commercialVehicleNo">No</label>
+        </div>
+    </div>
+
+    <!-- Child Component -->
+    <div *ngIf="showCommercialVehicleDetails">
+        <app-operate-motor-vehicle [parentForm]="employmentForm"
+            (motorVehicleDataChange)="onMotorVehicleDataChange($event)"></app-operate-motor-vehicle>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!employmentForm.valid">Add Data</button>
+    </div>
+</form>

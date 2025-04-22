@@ -1,0 +1,15 @@
+/** **Вставлено: CSS для вертикального расположения радио-кнопок** **/
+::ng-deep .vertical-radio-group .form-check {
+    display: block !important; // **Делаем блоковое отображение**
+    margin-bottom: 5px !important; // **Добавляем отступ снизу**
+}
+
+::ng-deep .vertical-radio-group .form-check-input {
+    margin-right: 5px; // **Добавляем отступ справа для входов**
+}
+
+/** Дополнительные стили, если нужны **/
+::ng-deep .vertical-radio-group .form-check-label {
+    font-weight: 500;
+    font-size: 14px;
+}

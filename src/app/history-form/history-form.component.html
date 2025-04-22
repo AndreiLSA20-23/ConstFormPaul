@@ -1,0 +1,51 @@
+<!-- Верхняя строка с данными истории -->
+<div class="op-history mb-3">
+  <span class="fw-bold">Operation History:</span>
+  <ng-container *ngIf="responseData?.data; else noData">
+    <span class="ms-2">SSN: <strong>{{ responseData.data.ssn }}</strong></span>,
+    <span class="ms-2">DOB: <strong>{{ responseData.data.bday | date: 'dd MMM yyyy' }}</strong></span>,
+    <span class="ms-2">Mode: <strong>{{ responseData.data.created ? 'Created' : 'Editing' }}</strong></span>
+  </ng-container>
+  <ng-template #noData>
+    <span class="text-danger ms-2">No data loaded</span>
+  </ng-template>
+</div>
+
+<!-- Отображение прогресса -->
+<div class="mb-3">
+  <h6>Completion Progress: <strong>{{ completionProgress }}%</strong></h6>
+</div>
+
+<!-- Основной контейнер переключения подкомпонентов -->
+<div class="component-container mb-4">
+  <ng-container *ngComponentOutlet="currentComponent; injector: customInjector"></ng-container>
+</div>
+
+<!-- Кнопки навигации -->
+<div class="navigation-buttons d-flex gap-2">
+  
+  <!-- Кнопка "Previous" -->
+  <button *ngIf="canShowPrev()" (click)="prev()" class="btn btn-outline-secondary" aria-label="Previous Section">
+    ◀ Previous
+  </button>
+  <!-- Кнопка "Next" -->
+  <button [disabled]="!canProceed" (click)="next()" class="btn btn-primary" aria-label="Next Section">
+    Next ▶
+  </button>
+</div>
+<br>
+<div class="text-info small">
+  [DEBUG] prefillReady: {{ prefillStatusReady }}, currentIndex: {{ index }},
+  canProceed: {{ prefillStatusMap.get(index) }}
+</div>
+
+<!-- Скрытые компоненты для устранения предупреждений компилятора -->
+<div class="d-none">
+  <app-perdates></app-perdates>
+  <app-license-details></app-license-details>
+  <app-driver-training></app-driver-training>
+  <app-add-address></app-add-address>
+  <app-exp-history></app-exp-history>
+  <app-full-res></app-full-res>
+  <app-report-generator></app-report-generator>
+</div>

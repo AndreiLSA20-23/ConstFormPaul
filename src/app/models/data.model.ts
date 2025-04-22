@@ -81,7 +81,7 @@ export interface IStartData {
   phone: string;
   personPhoneOrg: string;
   age: number;
-  felonyConvictions: number;
+  felonyConvictions: number; 
   trafficAccidents: number;
 }
 

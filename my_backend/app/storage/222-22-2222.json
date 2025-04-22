@@ -1,0 +1,74 @@
+{
+    "ssn": "222-22-2222",
+    "bday": "1982-02-02",
+    "created": false,
+    "additional_data": {
+        "app-perdates": {
+            "suffix": "Jr.",
+            "firstName": "Andrei",
+            "middleName": "Alex",
+            "lastName": "Sarancha",
+            "birthday": "1982-02-02",
+            "email": "ik2k@bk.ru",
+            "driverLicense": "3456-232323",
+            "phoneNumber": "89097893959",
+            "termsConfirmation": true,
+            "promoEmails": true
+        },
+        "app-license-details": {
+            "licenseNumber": "67995454599A122",
+            "country": "Germany",
+            "licenseExpirationDate": "2020-01-01",
+            "medicalExpirationDate": "2030-01-01",
+            "currentLicense": {
+                "value": "yes",
+                "licenseType": "Class AZ",
+                "licenseIssuedState": "Indiana",
+                "licenseExpirationDate1": "2040-01-01"
+            },
+            "hazmatLicense": {
+                "value": "yes",
+                "hazmatClass": "Class 1 - Explosives",
+                "effectiveDate": "2020-01-01"
+            },
+            "commercialLicense": {
+                "value": "yes"
+            },
+            "tankerEndorsement": true
+        },
+        "app-driver-training": {
+            "items": [
+                {
+                    "startDate": "2003-01-01",
+                    "endDate": "3004-02-02",
+                    "province": "SSsasas",
+                    "schoolName": "hUINYA2",
+                    "telephone": "89097893959",
+                    "address": "Andrei",
+                    "address2": "Kalana",
+                    "city": "Kaliningrad",
+                    "country": "Spain",
+                    "didGraduate": "Yes",
+                    "subjectToRegulations": "Yes",
+                    "safetySensitive": "Yes",
+                    "gpa": "10",
+                    "instructionHours": "1",
+                    "skillsTrained": [
+                        "Log Books"
+                    ]
+                }
+            ]
+        },
+        "add-address": [
+            {
+                "country": "Canada",
+                "city": "Kaliningrad",
+                "addressLine1": "Andrei",
+                "addressLine2": "Kalana",
+                "zipCode": "23450",
+                "startDate": "2015-04-20",
+                "endDate": "2025-04-20"
+            }
+        ]
+    }
+}

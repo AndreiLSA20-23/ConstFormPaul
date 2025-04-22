@@ -1,0 +1,97 @@
+<div [formGroup]="parentForm">
+    <h6 class="mb-3">Commercial Motor Vehicle Details</h6>
+
+    <!-- Federal Regulations -->
+    <div class="row mb-3">
+        <label class="form-label">Were you subject to Federal Motor Carrier or Transport Canada Safety
+            Regulations?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="federalRegulationsYes" formControlName="federalRegulations"
+                [value]="true" />
+            <label class="form-check-label" for="federalRegulationsYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="federalRegulationsNo" formControlName="federalRegulations"
+                [value]="false" />
+            <label class="form-check-label" for="federalRegulationsNo">No</label>
+        </div>
+        <div *ngIf="isFieldInvalid('federalRegulations')" class="text-danger">
+            This field is required.
+        </div>
+    </div>
+
+    <!-- Safety Functions -->
+    <div class="row mb-3">
+        <label class="form-label">Did you perform any safety-sensitive functions regulated by DOT?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="safetyFunctionsYes" formControlName="safetyFunctions"
+                [value]="true" />
+            <label class="form-check-label" for="safetyFunctionsYes">Yes</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="safetyFunctionsNo" formControlName="safetyFunctions"
+                [value]="false" />
+            <label class="form-check-label" for="safetyFunctionsNo">No</label>
+        </div>
+        <div *ngIf="isFieldInvalid('safetyFunctions')" class="text-danger">
+            This field is required.
+        </div>
+    </div>
+
+    <!-- Areas Driven -->
+    <div class="row mb-3">
+        <label class="form-label">Areas Driven</label>
+        <input type="text" class="form-control" formControlName="areasDriven" />
+        <div *ngIf="isFieldInvalid('areasDriven')" class="text-danger">
+            Areas Driven is required and must be at least 3 characters.
+        </div>
+    </div>
+
+    <!-- Pay Range -->
+    <div class="row mb-3">
+        <label class="form-label">Pay Range (cents/mile)</label>
+        <input type="number" class="form-control" formControlName="payRange" />
+        <div *ngIf="isFieldInvalid('payRange')" class="text-danger">
+            Pay Range must be a positive number.
+        </div>
+    </div>
+
+    <!-- Most Common Truck -->
+    <div class="row mb-3">
+        <label class="form-label">Most Common Truck Driven</label>
+        <select class="form-select" formControlName="mostCommonTruck">
+            <option *ngFor="let truck of mostCommonTrucks" [value]="truck">
+                {{ truck }}
+            </option>
+        </select>
+        <div *ngIf="isFieldInvalid('mostCommonTruck')" class="text-danger">
+            This field is required.
+        </div>
+    </div>
+
+    <!-- Most Common Trailer -->
+    <div class="row mb-3">
+        <label class="form-label">Most Common Trailer</label>
+        <select class="form-select" formControlName="mostCommonTrailer">
+            <option *ngFor="let trailer of mostCommonTrailers" [value]="trailer">
+                {{ trailer }}
+            </option>
+        </select>
+        <div *ngIf="isFieldInvalid('mostCommonTrailer')" class="text-danger">
+            This field is required.
+        </div>
+    </div>
+
+    <!-- Trailer Length -->
+    <div class="row mb-3">
+        <label class="form-label">Trailer Length</label>
+        <select class="form-select" formControlName="trailerLength">
+            <option *ngFor="let length of trailerLengths" [value]="length">
+                {{ length }}
+            </option>
+        </select>
+        <div *ngIf="isFieldInvalid('trailerLength')" class="text-danger">
+            This field is required.
+        </div>
+    </div>
+</div>

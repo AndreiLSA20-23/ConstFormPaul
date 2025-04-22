@@ -1,0 +1,321 @@
+{
+  "driverSchool": {
+    "label": "Driver Training",
+    "text": "Please Enter Driving School",
+    "elements": [
+      {
+        "id": "driverSchoolYesNo",
+        "type": "yesNo",
+        "label": "Did You Finish Driving School?", // Метка для пользователя
+        "defaultValue": false,  // Нет значения по умолчанию
+        "required": true, // Поле обязательно для заполнения
+        "options": false, // Нет дополнительных параметров
+        "ifRequiredText": "Please Choose Yes or No", // Сообщение об ошибке
+        "validation": false,  // Нет проверки данных
+        "hasChild": true, // Поле  имеет зависимых элементов
+        "showChildOnValue": [
+          {
+            "yes": [
+              {
+                "id": "driverSchoolDateFrom",
+                "type": "dateTime", 
+                "label": "Start Date",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Choose Driving School Start Date",
+                "validation": [
+                  {
+                    "pattern": "^\\d{4}/(0[1-9]|1[0-2])$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolDateTo",
+                "type": "dateTime", 
+                "label": "End Date",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Choose Driving School Graduation Date",
+                "validation": [
+                  
+                    "pattern": "^\\d{4}/(0[1-9]|1[0-2])$" //Дата формат год 10 лет
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolCountry",
+                "type": "dropdown",
+                "label": "Country (where school is Located)" // Страны только Две?
+                "defaultValue": "pleaseSelect",
+                "required": true,
+                "ifRequiredText": "Please Select Country from the List",
+                "validation": "",
+                "options": [
+                  {
+                    "key": "pleaseSelect",
+                    "label": "Please Select",
+                    "selectable": false
+                  },
+                  {
+                    "key": "usa",
+                    "label": "USA",
+                    "selectable": true
+                  },
+                  {
+                    "key": "canada",
+                    "label": "Canada",
+                    "selectable": true
+                  }
+                ],
+                "hasChild": true,
+                "showChildOnValue": [
+                  {
+                    "usa": {
+                      "id": "driverSchoolState",
+                      "type": "dropdown",
+                      "label": "State/Providence (where school is Located)",
+                      "defaultValue": "pleaseSelect",
+                      "required": true,
+                      "ifRequiredText": "Please Choose State/Providence",
+                      "validation": "",
+                      "options": [
+                        {
+                          "key": "pleaseSelect",
+                          "label": "Please Select",
+                          "selectable": false
+                        },
+                        {
+                          "key": "il",
+                          "label": "ILLINOIS",
+                          "selectable": true
+                        },
+                        {
+                          "key": "al",
+                          "label": "ALABAMA",
+                          "selectable": true
+                        }
+                      ],
+                      "hasChild": false,
+                      "showChildOnValue": false
+                    }
+                  },
+                  {
+                    "canada": {
+                      "id": "driverSchoolState",
+                      "type": "dropdown",
+                      "label": "State/Providence (where school is Located)",
+                      "defaultValue": "pleaseSelect",
+                      "required": true,
+                      "ifRequiredText": "Please Choose State/Providence",
+                      "validation": "",
+                      "options": [
+                        {
+                          "key": "pleaseSelect",
+                          "label": "Please Select",
+                          "selectable": false
+                        },
+                        {
+                          "key": "manitoba",
+                          "label": "MANITOBA",
+                          "selectable": true
+                        },
+                        {
+                          "key": "ontario",
+                          "label": "ONTARIO",
+                          "selectable": true
+                        }
+                      ],
+                      "hasChild": false,
+                      "showChildOnValue": false
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "driverSchoolName",
+                "type": "text",
+                "label": "Driver School Name",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Enter Driving School Name",
+                "validation": [
+                  {
+                    "pattern": "^[\\s\\S]{6,20}$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolAddress",
+                "type": "text",
+                "label": "Driver School Address",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Enter Driving School Address",
+                "validation": [
+                  {
+                    "pattern": "^[\\s\\S]{6,50}$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolAddress2",
+                "type": "text",
+                "label": "Driver School Address 2",
+                "defaultValue": false,
+                "required": false,
+                "options": false,
+                "ifRequiredText": false,
+                "validation": false,
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolCity",
+                "type": "text",
+                "label": "Driver School City",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Enter Driving School City",
+                "validation": [
+                  {
+                    "pattern": "^[\\s\\S]{6,20}$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolPhone",
+                "type": "text",
+                "label": "Driver School Phone",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Enter Driving Phone Number",
+                "validation": [
+                  {
+                    "pattern": "^[0-9/]{6,20}$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolZip",
+                "type": "text",
+                "label": "Driver School Zip",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Enter Driving School ZIP",
+                "validation": [
+                  {
+                    "pattern": "^[0-9/]{5,7}$"
+                  }
+                ],
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolDidYouGraduate",
+                "type": "yesNo",
+                "label": "Did You Graduate?",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Answer if you graduate driving school",
+                "validation": false,
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolDidYouGraduate (Дублирование вопроса)",
+                "type": "yesNo",
+                "label": "Did You Graduate?",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Answer if you graduate driving school",
+                "validation": false,
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolCanadaDOT",
+                "type": "yesNo",
+                "label": "Lytanija blablabla?",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Answer if you graduate driving school",
+                "validation": false,
+                "hasChild": false,
+                "showChildOnValue": false
+              },
+              {
+                "id": "driverSchoolUsaDOT",
+                "type": "yesNo",
+                "label": "Lytanija blablabla?",
+                "defaultValue": false,
+                "required": true,
+                "options": false,
+                "ifRequiredText": "Please Answer if you graduate driving school",
+                "validation": false,
+                "hasChild": true,
+                "showChildOnValue": [
+                  {
+                    "yes": [
+                      {
+                        "id": "driverSchoolUsaDOTEscioDrugTest",
+                        "type": "yesNo",
+                        "label": "Lytanija pro drugtest?",
+                        "defaultValue": false,
+                        "required": true,
+                        "options": false,
+                        "ifRequiredText": "Please Answer if you were subject to drug test",
+                        "validation": false,
+                        "hasChild": false,
+                        "showChildOnValue": false
+                      }
+                    ]
+                  },
+                  {
+                    "no": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "no": "Clear all fields and hide child parts: run clear all function()"
+          }
+        ]
+      },
+      {
+        "id": "driverSchoolCheckBoxTest",
+        "type": "checkbox",
+        "label": "I confirm that I haven't felony convictions in the past 7??статика years and that all information provided is true and accurate to the best of my knowledge.",
+        "defaultValue": null, // Был 0
+        "required": true,
+        "options": false,
+        "ifRequiredText": "alert('If You disagree please leave the form')",
+        "validation": false,
+        "hasChild": false,
+        "showChildOnValue": false
+      }
+    ]
+  }
+}

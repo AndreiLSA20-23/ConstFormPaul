@@ -1,0 +1,63 @@
+<div class="form-container">
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <!-- SSN Field -->
+    <div class="mb-3">
+      <label for="ssn" class="form-label">SSN:</label>
+      <input id="ssn" class="form-control" formControlName="ssn" placeholder="123-45-6789" appSsnMask
+             inputmode="numeric" maxlength="11"
+             [ngClass]="{'is-invalid': authForm.get('ssn')?.invalid && authForm.get('ssn')?.touched}" />
+      <div class="invalid-feedback" *ngIf="authForm.get('ssn')?.invalid && authForm.get('ssn')?.touched">
+        <p *ngIf="authForm.get('ssn')?.errors?.['required']">SSN is required.</p>
+        <p *ngIf="authForm.get('ssn')?.errors?.['pattern']">Invalid SSN format (xxx-xx-xxxx).</p>
+      </div>
+    </div>
+
+    <!-- Date of Birth Field -->
+    <div class="mb-3">
+      <label for="dateOfBirth" class="form-label">Date of Birth:</label>
+      <input id="dateOfBirth" type="date" class="form-control" formControlName="dateOfBirth"
+             [ngClass]="{'is-invalid': authForm.get('dateOfBirth')?.invalid && authForm.get('dateOfBirth')?.touched}" />
+      <div class="invalid-feedback"
+           *ngIf="authForm.get('dateOfBirth')?.invalid && authForm.get('dateOfBirth')?.touched">
+        <p *ngIf="authForm.get('dateOfBirth')?.errors?.['required']">Date of birth is required.</p>
+        <p *ngIf="authForm.get('dateOfBirth')?.errors?.['tooYoung']">You must be at least 23 years old.</p>
+        <p *ngIf="authForm.get('dateOfBirth')?.errors?.['tooOld']">You must be no older than 75 years.</p>
+      </div>
+    </div>
+
+    <!-- Criminal Record Confirmation -->
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="noCriminalRecord" formControlName="noCriminalRecord"
+             [ngClass]="{'is-invalid': authForm.get('noCriminalRecord')?.invalid && authForm.get('noCriminalRecord')?.touched}" />
+      <label class="form-check-label" for="noCriminalRecord">I confirm that I have no criminal record.</label>
+      <div class="invalid-feedback"
+           *ngIf="authForm.get('noCriminalRecord')?.invalid && authForm.get('noCriminalRecord')?.touched">
+        Confirmation is required.
+      </div>
+    </div>
+
+    <!-- Terms and Conditions -->
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="acceptTerms" formControlName="acceptTerms"
+             [ngClass]="{'is-invalid': authForm.get('acceptTerms')?.invalid && authForm.get('acceptTerms')?.touched}" />
+      <label class="form-check-label" for="acceptTerms">I accept the terms and conditions.</label>
+      <div class="invalid-feedback"
+           *ngIf="authForm.get('acceptTerms')?.invalid && authForm.get('acceptTerms')?.touched">
+        Acceptance of terms is required.
+      </div>
+    </div>
+
+    <!-- Math CAPTCHA -->
+    <div class="mb-3">
+      <app-math-captcha (captchaVerified)="onMathCaptchaVerified($event)"></app-math-captcha>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="authForm.invalid || !captchaPassed">
+      Submit
+    </button>
+  </form>
+
+  <!-- Message Display -->
+  <p *ngIf="message" class="mt-3 text-danger">{{ message }}</p>
+</div>

@@ -1,0 +1,68 @@
+select.form-select {
+  /* Удалите width: auto */
+  width: 100%;
+}
+
+input.form-control {
+  /* Удалите width: auto */
+  width: 100%;
+  max-width: 100%; /* Оставьте max-width для предотвращения переполнения */
+}
+
+/* Контейнер для горизонтальной прокрутки */
+.pages-container {
+  display: flex;
+  flex-wrap: nowrap; /* не допускаем перенос элементов */
+  overflow-x: auto;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+
+  /* Firefox */
+  scrollbar-width: thin;          /* тонкий скроллбар */
+  scrollbar-color: #888 #f1f1f1;    /* бегунок и дорожка */
+}
+
+/* Кастомизация скроллбара для браузеров на основе WebKit */
+.pages-container::-webkit-scrollbar {
+  height: 8px; /* высота горизонтального скроллбара */
+}
+
+.pages-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.pages-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.pages-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Каждая страница занимает 100% ширины контейнера */
+.page-column {
+  flex: 0 0 100%;
+  min-width: 100%;
+  scroll-snap-align: start;
+}
+
+/* Фиксированное позиционирование навигационных кнопок */
+.nav-buttons {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+.custom-btn {
+  width: auto;
+  padding: 0 12px;
+}
+.mx-1 {
+  margin-left: 0.25rem !important;
+  margin-right: 0.25rem !important;
+}
+

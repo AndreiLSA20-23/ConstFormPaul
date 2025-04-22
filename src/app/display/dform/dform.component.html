@@ -1,0 +1,182 @@
+<!-- Если ещё не готовы (префилл в процессе), показываем заглушку -->
+<ng-container *ngIf="!isReady; else mainContent">
+  <p>Loading data, please wait...</p>
+</ng-container>
+
+<!-- Когда isReady === true, отображаем остальную логику -->
+<ng-template #mainContent>
+  <div *ngIf="isLoading">Loading...</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Общий шаблон для рендеринга страницы -->
+  <ng-template #renderPage let-rows="rows" let-form="form">
+    <div *ngFor="let row of rows" [ngClass]="row['cssClasses']">
+      <div *ngFor="let col of row['columns']" [ngClass]="col['cssClasses']">
+        <ng-container *ngIf="pageKeys && pageKeys.length > 1; else singlePageContent">
+          <!-- Многостраничный вариант -->
+          <app-pagen-page *ngFor="let el of col['elements']; let i = index" [el]="el" [form]="form"
+            [countryDropdownData]="countryDropdownData" [getStatesForSelectedCountry]="getStatesHandler(i)"
+            [onCountryChange]="getCountryChangeHandler(i)" [onCancel]="onCancel">
+          </app-pagen-page>
+        </ng-container>
+        <ng-template #singlePageContent>
+          <!-- Одностраничный вариант -->
+          <app-single-page *ngFor="let el of col['elements']; let i = index" [el]="el" [form]="form"
+            [countryDropdownData]="countryDropdownData" [getStatesForSelectedCountry]="getStatesHandler(i)"
+            [onCountryChange]="getCountryChangeHandler(i)" [onCancel]="onCancel">
+          </app-single-page>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Режим для монорежима (FormGroup) -->
+  <ng-container *ngIf="isFormGroup; else formArrayTemplate">
+    <form [formGroup]="mainFormGroup" (ngSubmit)="onSubmitSingleForm()">
+      <div *ngIf="pageKeys && pageKeys.length > 1; else singlePageTemplate">
+        <div class="pages-container">
+          <div *ngFor="let pageKey of pageKeys" class="page-column">
+            <ng-container *ngTemplateOutlet="
+                renderPage;
+                context: { rows: getRowsForPage(pageKey), form: mainFormGroup }
+              ">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template #singlePageTemplate>
+        <ng-container *ngTemplateOutlet="
+            renderPage;
+            context: { rows: getRows(), form: mainFormGroup }
+          ">
+        </ng-container>
+      </ng-template>
+      <div class="form-actions mt-3">
+        <button type="submit" class="btn btn-success">Save</button>
+        <!--button type="button" (click)="onCancel()" class="btn btn-outline-secondary">Cancel</button-->
+      </div>
+    </form>
+  </ng-container>
+
+  <!-- Режим для полиформы (FormArray) -->
+  <ng-template #formArrayTemplate>
+    <ng-container *ngIf="formArray?.controls?.length === 1 && isSingleFormView; else managerView">
+      <form [formGroup]="getActiveFormGroup()" (ngSubmit)="onSubmitFormArray()" class="border p-3 rounded bg-light">
+        <div class="form-header mb-3 text-center">
+          <h3 class="mb-1">Fill Out Your Survey</h3>
+          <p class="small text-muted">
+            Please complete the survey below and click "Save Changes" when finished.
+          </p>
+        </div>
+        <ng-container *ngTemplateOutlet="
+            renderPage;
+            context: { rows: getRows(), form: getActiveFormGroup() }
+          ">
+        </ng-container>
+        <div class="form-actions mt-3 d-flex justify-content-between">
+          <div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <!--app-dform type="button" (click)="onCancel()" class="btn btn-outline-secondary ms-2">
+              Cancel
+            </button>-->
+          </div>
+          <button type="button" (click)="onAddNewItem()" class="btn btn-primary"
+            [disabled]="!isSurveySaved || formArray.controls.length >= maxItems">
+            Create New Record
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-template #managerView>
+      <form (ngSubmit)="onSubmitFormArray()">
+        <div class="manager-header mb-3 text-center techno-manager">
+          <h6 class="mb-1">Form Manager</h6>
+          <p class="small text-muted">
+            Browse your submitted forms. Easily edit, remove, or start a new one.
+          </p>
+        </div>
+
+        <div *ngFor="let ctrl of (formArray?.controls || []); let i = index"
+          class="form-array-item card mb-3 shadow-sm techno-card">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div class="item-summary">
+              <span class="fw-bold me-2">Form #{{ i + 1 }}:</span>
+              <span>{{ ctrl.value | cpipSummary }}</span>
+            </div>
+            <div class="item-actions techno-actions">
+              <button type="button" class="btn btn-sm btn-secondary me-1" (click)="onEditItem(i)">
+                Edit
+              </button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDeleteItem(i)"
+                [disabled]="formArray.controls.length === 1">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-array-add mb-3 text-center">
+          <button type="button" (click)="onAddNewItem()" class="btn btn-primary"
+            [disabled]="!isSurveySaved || formArray.controls.length >= maxItems">
+            Add New Form
+          </button>
+          <ng-container *ngIf="formArray">
+            <p *ngIf="formArray.controls.length >= maxItems" class="text-warning mt-2">
+              Maximum items reached.
+            </p>
+          </ng-container>
+        </div>
+
+        <div class="form-actions d-flex justify-content-end">
+          <button type="submit" class="btn btn-success me-2">Save Changes</button>
+          <!--<button type="button" (click)="onCancel()" class="btn btn-outline-secondary">
+            CancelXXX
+          </button>-->
+        </div>
+      </form>
+
+      <div class="modal fade" tabindex="-1" role="dialog" [ngClass]="{ show: isEditing }"
+        [ngStyle]="{ display: isEditing ? 'block' : 'none' }">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Survey</h5>
+              <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+              <div class="modal-body">
+                <ng-container *ngIf="pageKeys && pageKeys.length > 1; else singlePageEditTemplate">
+                  <div class="pages-container">
+                    <div *ngFor="let pageKey of pageKeys" class="page-column">
+                      <ng-container *ngTemplateOutlet="
+                          renderPage;
+                          context: { rows: getRowsForPage(pageKey), form: editForm }
+                        ">
+                      </ng-container>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-template #singlePageEditTemplate>
+                  <ng-container *ngTemplateOutlet="
+                      renderPage;
+                      context: { rows: getRows(), form: editForm }
+                    ">
+                  </ng-container>
+                </ng-template>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Update Survey</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</ng-template>

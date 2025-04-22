@@ -25,6 +25,15 @@
       </button>
     </div>
 
+    <!-- Скрытые компоненты для устранения предупреждений компилятора -->
+    <div class="hidden-components">
+      <app-start></app-start>
+      <app-req></app-req>
+      <app-user-auth></app-user-auth>
+      <app-history></app-history>
+      <input type="text" appSsnMask />
+    </div>
+
     <!-- Ссылка для отображения политики конфиденциальности -->
     <div class="privacy-policy-link text-center mt-4">
       <!-- Вызываем метод для показа политики, а не переходим по маршруту -->

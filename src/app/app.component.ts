@@ -7,7 +7,6 @@ import { PrivacyPolicyComponent } from './base/privacy-policy/privacy-policy.com
 import { HistoryFormComponent } from './history-form/history-form.component';
 import { NgIf } from '@angular/common';
 import { SsnMaskDirective } from './dirs/ssn-mask.directive';
-
 @Component({
   selector: 'app-root',
   standalone: true,

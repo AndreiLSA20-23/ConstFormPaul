@@ -1,0 +1,138 @@
+/* Общие стили для чекбоксов и селектов */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+select.form-select,
+input.form-control {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Контейнер для горизонтальной прокрутки */
+.pages-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+
+  /* Красивый тонкий скроллбар */
+  scrollbar-width: thin;
+  scrollbar-color: #4CAF50 #e0e0e0;
+}
+
+/* Кастомный скроллбар */
+.pages-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.pages-container::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.pages-container::-webkit-scrollbar-thumb {
+  background: #4CAF50;
+  border-radius: 4px;
+  transition: background 0.3s ease-in-out;
+}
+
+.pages-container::-webkit-scrollbar-thumb:hover {
+  background: #388E3C;
+}
+
+/* Каждая страница занимает 100% ширины контейнера */
+.page-column {
+  flex: 0 0 100%;
+  min-width: 100%;
+  scroll-snap-align: start;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Стили для кнопок в формах */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  margin: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-edit {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-add {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Навигационные кнопки для страниц */
+.nav-buttons {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+
+.nav-buttons button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.nav-buttons button:hover {
+  background: #388E3C;
+  transform: scale(1.1);
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .nav-buttons {
+    bottom: 10px;
+    gap: 5px;
+  }
+
+  .nav-buttons button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

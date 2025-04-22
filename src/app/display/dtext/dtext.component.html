@@ -1,0 +1,111 @@
+<!-- dtext.component.html -->
+
+<!-- Состояние загрузки и ошибки -->
+<div *ngIf="isLoading">Loading...</div>
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<!-- Если данные загружены, выводим контент -->
+<div *ngIf="!isLoading && !errorMessage">
+  <ng-container *ngIf="processedElements && processedElements.length; else noData">
+    <!-- Если имеется более одной страницы (пагинация) -->
+    <ng-container *ngIf="processedPageKeys && processedPageKeys.length > 1; else singlePage">
+      <!-- Контейнер для горизонтальной прокрутки страниц -->
+      <div class="pages-container">
+        <!-- Каждая страница занимает 100% ширины контейнера -->
+        <div *ngFor="let pageKey of processedPageKeys" class="page-column">
+          <!-- Рендерим строки для данной страницы -->
+          <div *ngFor="let row of getProcessedRowsForPage(pageKey)" [ngClass]="row['cssClasses']">
+            <!-- Рендерим колонки -->
+            <div *ngFor="let col of row['columns']" [ngClass]="col['cssClasses']">
+              <!-- Рендерим элементы внутри колонки -->
+              <ng-container *ngFor="let el of col['elements']" [ngSwitch]="el['type']">
+                <!-- heading -->
+                <h5 *ngSwitchCase="'heading'" [ngClass]="el['cssClasses']"
+                    [innerHTML]="el['defaultValue'] || el['content'] || el['label']">
+                </h5>
+                <!-- paragraph -->
+                <p *ngSwitchCase="'paragraph'" [ngClass]="el['cssClasses']"
+                   [innerHTML]="el['defaultValue'] || el['content'] || ''">
+                </p>
+                <!-- list -->
+                <div *ngSwitchCase="'list'" [ngClass]="el['cssClasses']">
+                  <h6 *ngIf="el['label']" [innerHTML]="el['label']" class="list-title"></h6>
+                  <ul *ngIf="el['items'] && el['items'].length > 0">
+                    <li *ngFor="let item of el['items']" [innerHTML]="item" class="list-item"></li>
+                  </ul>
+                  <p *ngIf="!el['items'] || el['items'].length === 0" class="alert alert-warning">
+                    No items found in the list.
+                  </p>
+                </div>
+                <!-- Если тип не распознан -->
+                <ng-container *ngSwitchDefault>
+                  <div class="alert alert-info">
+                    Unknown element type: {{ el['type'] }}
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Навигация: кнопки Prev и Next
+      <div class="nav-buttons">
+        <button *ngIf="currentProcessedPage !== processedPageKeys[0]" class="btn btn-secondary me-2" (click)="goProcessedPrev()">
+          Prev
+        </button>
+        <button class="btn btn-primary" (click)="goProcessedNext()">
+          Next
+        </button>
+      </div>-->
+    </ng-container>
+
+    <!-- Если страниц всего одна -->
+    <ng-template #singlePage>
+      <div *ngFor="let element of processedElements" [ngSwitch]="element['type']">
+        <!-- Если элемент row, проходим по его колонкам -->
+        <ng-container *ngSwitchCase="'row'">
+          <div [ngClass]="element['cssClasses']">
+            <div *ngFor="let column of element['columns']" [ngClass]="column['cssClasses']">
+              <div *ngFor="let innerElement of column['elements']">
+                <ng-container [ngSwitch]="innerElement['type']">
+                  <h5 *ngSwitchCase="'heading'" [ngClass]="innerElement['cssClasses']"
+                      [innerHTML]="innerElement['defaultValue'] || innerElement['content'] || innerElement['label']">
+                  </h5>
+                  <p *ngSwitchCase="'paragraph'" [ngClass]="innerElement['cssClasses']"
+                     [innerHTML]="innerElement['defaultValue'] || innerElement['content'] || ''">
+                  </p>
+                  <div *ngSwitchCase="'list'" [ngClass]="innerElement['cssClasses']">
+                    <h6 *ngIf="innerElement['label']" [innerHTML]="innerElement['label']" class="list-title"></h6>
+                    <ul *ngIf="innerElement['items'] && innerElement['items'].length > 0">
+                      <li *ngFor="let item of innerElement['items']" [innerHTML]="item" class="list-item"></li>
+                    </ul>
+                    <p *ngIf="!innerElement['items'] || innerElement['items'].length === 0" class="alert alert-warning">
+                      No items found in the list.
+                    </p>
+                  </div>
+                  <ng-container *ngSwitchDefault>
+                    <div class="alert alert-info">
+                      Unknown element type: {{ innerElement['type'] }}
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <div class="alert alert-info">
+            Unknown element type: {{ element['type'] }}
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+<ng-template #noData>
+  <div class="alert alert-warning text-center">
+    No data available to display.
+  </div>
+</ng-template>
+

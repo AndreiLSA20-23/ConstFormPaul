@@ -1,0 +1,627 @@
+{
+    "pages": [
+        {
+            "driverSchool": {
+                "label": "Driver Training",
+                "text": "Please Enter Driving School",
+                "elements": [
+                    {
+                        "id": "driverSchoolYesNo",
+                        "type": "yesNo",
+                        "label": "Did You Finish Driving School?",
+                        "defaultValue": false,
+                        "required": true,
+                        "options": false,
+                        "ifRequiredText": "Please Choose Yes or No",
+                        "validation": false,
+                        "hasChild": true,
+                        "showChildOnValue": [
+                            {
+                                "yes": [
+                                    {
+                                        "id": "driverSchoolDateFrom",
+                                        "type": "dateTime",
+                                        "label": "Start Date",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Choose Driving School Start Date",
+                                        "validation": "",
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolDateTo",
+                                        "type": "dateTime",
+                                        "label": "End Date",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Choose Driving School Graduation Date",
+                                        "validation": "",
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolCountry",
+                                        "type": "dropdown",
+                                        "label": "Country (where school is Located)",
+                                        "defaultValue": "pleaseSelect",
+                                        "required": true,
+                                        "ifRequiredText": "Please Select Country from ther List",
+                                        "validation": "",
+                                        "options": [
+                                            {
+                                                "key": "pleaseSelect",
+                                                "label": "Please Select",
+                                                "selectable": false
+                                            },
+                                            {
+                                                "key": "usa",
+                                                "label": "USA",
+                                                "selectable": true
+                                            },
+                                            {
+                                                "key": "canada",
+                                                "label": "Canada",
+                                                "selectable": true
+                                            }
+                                        ],
+                                        "hasChild": true,
+                                        "showChildOnValue": [
+                                            {
+                                                "usa": {
+                                                    "id": "driverSchoolState",
+                                                    "type": "dropdown",
+                                                    "label": "State/Providence (where school is Located)",
+                                                    "defaultValue": "pleaseSelect",
+                                                    "required": true,
+                                                    "ifRequiredText": "Please Choose State/Providence",
+                                                    "validation": "",
+                                                    "options": [
+                                                        {
+                                                            "key": "pleaseSelect",
+                                                            "label": "Please Select",
+                                                            "selectable": false
+                                                        },
+                                                        {
+                                                            "key": "AL",
+                                                            "label": "ALABAMA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "AK",
+                                                            "label": "ALASKA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "AZ",
+                                                            "label": "ARIZONA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "AR",
+                                                            "label": "ARKANSAS",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "CA",
+                                                            "label": "CALIFORNIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "CO",
+                                                            "label": "COLORADO",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "CT",
+                                                            "label": "CONNECTICUT",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "DE",
+                                                            "label": "DELAWARE",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "FL",
+                                                            "label": "FLORIDA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "GA",
+                                                            "label": "GEORGIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "HI",
+                                                            "label": "HAWAII",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "ID",
+                                                            "label": "IDAHO",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "IL",
+                                                            "label": "ILLINOIS",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "IN",
+                                                            "label": "INDIANA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "IA",
+                                                            "label": "IOWA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "KS",
+                                                            "label": "KANSAS",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "KY",
+                                                            "label": "KENTUCKY",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "LA",
+                                                            "label": "LOUISIANA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "ME",
+                                                            "label": "MAINE",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MD",
+                                                            "label": "MARYLAND",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MA",
+                                                            "label": "MASSACHUSETTS",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MI",
+                                                            "label": "MICHIGAN",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MN",
+                                                            "label": "MINNESOTA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MS",
+                                                            "label": "MISSISSIPPI",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MO",
+                                                            "label": "MISSOURI",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MT",
+                                                            "label": "MONTANA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NE",
+                                                            "label": "NEBRASKA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NV",
+                                                            "label": "NEVADA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NH",
+                                                            "label": "NEW HAMPSHIRE",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NJ",
+                                                            "label": "NEW JERSEY",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NM",
+                                                            "label": "NEW MEXICO",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NY",
+                                                            "label": "NEW YORK",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NC",
+                                                            "label": "NORTH CAROLINA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "ND",
+                                                            "label": "NORTH DAKOTA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "OH",
+                                                            "label": "OHIO",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "OK",
+                                                            "label": "OKLAHOMA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "OR",
+                                                            "label": "OREGON",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "PA",
+                                                            "label": "PENNSYLVANIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "RI",
+                                                            "label": "RHODE ISLAND",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "SC",
+                                                            "label": "SOUTH CAROLINA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "SD",
+                                                            "label": "SOUTH DAKOTA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "TN",
+                                                            "label": "TENNESSEE",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "TX",
+                                                            "label": "TEXAS",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "UT",
+                                                            "label": "UTAH",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "VT",
+                                                            "label": "VERMONT",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "VA",
+                                                            "label": "VIRGINIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "WA",
+                                                            "label": "WASHINGTON",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "WV",
+                                                            "label": "WEST VIRGINIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "WI",
+                                                            "label": "WISCONSIN",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "WY",
+                                                            "label": "WYOMING",
+                                                            "selectable": true
+                                                        }
+                                                    ],
+                                                    "hasChild": false,
+                                                    "showChildOnValue": false
+                                                }
+                                            },
+                                            {
+                                                "canada": {
+                                                    "id": "driverSchoolState",
+                                                    "type": "dropdown",
+                                                    "label": "State/Providence (where school is Located)",
+                                                    "defaultValue": "pleaseSelect",
+                                                    "required": true,
+                                                    "ifRequiredText": "Please Choose State/Providence",
+                                                    "validation": "",
+                                                    "options": [
+                                                        {
+                                                            "key": "pleaseSelect",
+                                                            "label": "Please Select",
+                                                            "selectable": false
+                                                        },
+                                                        {
+                                                            "key": "AB",
+                                                            "label": "ALBERTA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "BC",
+                                                            "label": "BRITISH COLUMBIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "MB",
+                                                            "label": "MANITOBA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NB",
+                                                            "label": "NEW BRUNSWICK",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NL",
+                                                            "label": "NEWFOUNDLAND AND LABRADOR",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NS",
+                                                            "label": "NOVA SCOTIA",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "ON",
+                                                            "label": "ONTARIO",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "PE",
+                                                            "label": "PRINCE EDWARD ISLAND",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "QC",
+                                                            "label": "QUEBEC",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "SK",
+                                                            "label": "SASKATCHEWAN",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NT",
+                                                            "label": "NORTHWEST TERRITORIES",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "NU",
+                                                            "label": "NUNAVUT",
+                                                            "selectable": true
+                                                        },
+                                                        {
+                                                            "key": "YT",
+                                                            "label": "YUKON",
+                                                            "selectable": true
+                                                        }
+                                                    ],
+                                                    "hasChild": false,
+                                                    "showChildOnValue": false
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "driverSchoolName",
+                                        "type": "text",
+                                        "label": "Driver School Name",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Enter Driving School Name",
+                                        "validation": [
+                                            {
+                                                "minlength": 6
+                                            },
+                                            {
+                                                "maxlenght": 20
+                                            }
+                                        ],
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolAddress",
+                                        "type": "text",
+                                        "label": "Driver School Address",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Enter Driving School Address",
+                                        "validation": [
+                                            {
+                                                "minlength": 6
+                                            },
+                                            {
+                                                "maxlenght": 50
+                                            }
+                                        ],
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolAddress2",
+                                        "type": "text",
+                                        "label": "Driver School Address 2",
+                                        "defaultValue": false,
+                                        "required": false,
+                                        "options": false,
+                                        "ifRequiredText": false,
+                                        "validation": false,
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolCity",
+                                        "type": "text",
+                                        "label": "Driver School City",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Enter Driving School City",
+                                        "validation": [
+                                            {
+                                                "minlength": 6
+                                            },
+                                            {
+                                                "maxlenght": 20
+                                            }
+                                        ],
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolPhone",
+                                        "type": "text",
+                                        "label": "Driver School Phone",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Enter Driving Phone Number",
+                                        "validation": [
+                                            {
+                                                "minlength": 6
+                                            },
+                                            {
+                                                "maxlenght": 20
+                                            }
+                                        ],
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolZip",
+                                        "type": "text",
+                                        "label": "Driver School Zip",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Enter Driving School ZIP",
+                                        "validation": [
+                                            {
+                                                "minlength": 5
+                                            },
+                                            {
+                                                "maxlenght": 7
+                                            }
+                                        ],
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolDidYouGraduate",
+                                        "type": "yesNo",
+                                        "label": "Did You Graduate?",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Answer if you graduate driving school",
+                                        "validation": false,
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolDidYouGraduate",
+                                        "type": "yesNo",
+                                        "label": "Did You Graduate?",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Answer if you graduate driving school",
+                                        "validation": false,
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolCanadaDOT",
+                                        "type": "yesNo",
+                                        "label": "Lytanija blablabla?",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Answer if you graduate driving school",
+                                        "validation": false,
+                                        "hasChild": false,
+                                        "showChildOnValue": false
+                                    },
+                                    {
+                                        "id": "driverSchoolUsaDOT",
+                                        "type": "yesNo",
+                                        "label": "Lytanija blablabla?",
+                                        "defaultValue": false,
+                                        "required": true,
+                                        "options": false,
+                                        "ifRequiredText": "Please Answer if you graduate driving school",
+                                        "validation": false,
+                                        "hasChild": true,
+                                        "showChildOnValue": [
+                                            {
+                                                "yes": [
+                                                    {
+                                                        "id": "driverSchoolUsaDOTEscioDrugTest",
+                                                        "type": "yesNo",
+                                                        "label": "Lytanija pro drugtest?",
+                                                        "defaultValue": false,
+                                                        "required": true,
+                                                        "options": false,
+                                                        "ifRequiredText": "Please Answer if you were subject to drug test",
+                                                        "validation": false,
+                                                        "hasChild": false,
+                                                        "showChildOnValue": false
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "no": ""
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "no": "Clear all fields and hide child parts: run cler all function()"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "driverSchoolCheckBoxTest",
+                        "type": "checkbox",
+                        "label": "I confirm that I haven't felony convictions in the past 7 years and that all information provided is true and accurate to the best of my knowledge.",
+                        "defaultValue": 0,
+                        "required": true,
+                        "options": false,
+                        "ifRequiredText": "alert('If You disagree please leave the form')",
+                        "validation": false,
+                        "hasChild": false,
+                        "showChildOnValue": false
+                    }
+                ]
+            }
+        }
+    ]
+}

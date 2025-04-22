@@ -10,7 +10,7 @@ export const START_DATA_1: IStartData = {
   sampleCmpName: 'GOOD NEWS CARRIER',
   felonyConvictions: 7,
   sampleCmpAddress: '13450 KING RD., LEMONT, IL 630439',
-  homeHistory: 5,
+  homeHistory: 10,
   driveLicHistory: 4,
   empHistory: 10,
   phone: '', //Client phone

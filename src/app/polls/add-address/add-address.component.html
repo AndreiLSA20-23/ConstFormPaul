@@ -1,0 +1,202 @@
+<!-- ════════════════ ТЕКСТ‑ШАПКА ════════════════ -->
+<p class="my-3 text-justify">
+    <strong>Please fill out the address history form carefully:</strong><br />
+    You must provide your full address history for the last {{ maxMonths }} months without any gaps.
+    Start by adding the most recent address and continue backward in time.
+</p>
+
+<ul class="small lh-lg px-3">
+    <li>
+        📍 <strong>Country / State:</strong> Choose the country where you lived. If you select "United States",
+        choosing a state becomes mandatory.
+    </li>
+    <li>
+        🏙️ <strong>City / Zip Code:</strong> Enter the name of the city and your ZIP code.
+    </li>
+    <li>
+        🏠 <strong>Address Lines:</strong> Fill in Address Line 1 (required) and optionally Address Line 2.
+    </li>
+    <li>
+        📅 <strong>Start / End Dates:</strong> Provide the period during which you lived at that address.
+        Each period must last at least 1 month and must not overlap with others.
+    </li>
+</ul>
+
+<p class="text-danger text-center fw-semibold">
+    ⚠️ You cannot save your addresses until all time gaps are filled!
+</p>
+
+
+<!-- ═════ ИНДИКАТОР НЕЗАПОЛНЁННЫХ GAP‑ОВ ═════ -->
+<div *ngIf="gaps.length" class="alert alert-warning d-flex align-items-center justify-content-center mb-3">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <span>
+        You still have <strong>{{ gaps.length }}</strong>
+        unfilled address {{ gaps.length === 1 ? 'gap' : 'gaps' }} — please add an address
+        for {{ gaps.length === 1 ? 'this period' : 'these periods' }}.
+    </span>
+</div>
+
+<!-- ============== СПИСОК СОХРАНЁННЫХ ============== -->
+<h5 class="text-center">Saved&nbsp;Addresses</h5>
+<ul class="list-group">
+    <li *ngFor="let address of storage; let i = index" class="list-group-item">
+        <strong>{{ address.city }}, {{ address.country }}</strong>
+        <span *ngIf="address.state">, {{ address.state }}</span>
+        ({{ address.startDate | date: 'MMM d, y' }} – {{ address.endDate | date: 'MMM d, y' }})<br />
+        Address 1: {{ address.addressLine1 }}<br />
+        <div *ngIf="address.addressLine2">
+            Address 2: {{ address.addressLine2 }}
+        </div>
+        Zip: {{ address.zipCode }}
+        <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-warning me-2" (click)="openModal(i)">Edit</button>
+            <button class="btn btn-danger" (click)="removeAddress(i)">Delete</button>
+        </div>
+    </li>
+    <li *ngIf="!storage.length" class="list-group-item text-center text-muted">
+        No addresses added yet.
+    </li>
+</ul>
+
+<!-- ============ КНОПКА «ADD ADDRESS» или НАПОМИНАНИЕ ============ -->
+<div class="d-flex justify-content-center my-3" *ngIf="gaps.length > 0">
+    <button class="btn btn-primary" style="width: 10vw" (click)="openModal()">Add&nbsp;Address</button>
+</div>
+<div *ngIf="isDirty" class="alert alert-info text-center mt-3">
+    🔔 You have unsaved changes. Don’t forget to click <strong>Save Addresses</strong>.
+</div>
+
+
+
+<div class="text-center my-3 text-success fw-semibold" *ngIf="gaps.length === 0">
+    All addresses are filled. Please click <u>Save Addresses</u>.
+</div>
+
+<!-- ============ КНОПКА «SAVE ADDRESSES» ============ -->
+<div class="d-flex justify-content-end mb-5 me-4">
+    <button class="btn btn-success" (click)="persistAll()" [disabled]="gaps.length > 0"
+        title="{{ gaps.length ? 'Fill all gaps to enable saving' : 'Save all addresses' }}">
+        Save&nbsp;Addresses
+    </button>
+</div>
+
+<!-- ========================  M O D A L  ========================= -->
+<div class="modal fade" tabindex="-1" [ngClass]="{ show: isModalOpen }"
+    [ngStyle]="{ display: isModalOpen ? 'block' : 'none' }">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ editIndex === null ? 'Add Address' : 'Edit Address' }}</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <form [formGroup]="addressForm" (ngSubmit)="saveFromModal()" class="row g-3 modal-body">
+                <!-- Country & State -->
+                <div class="col-12">
+                    <div class="row">
+                        <div [class.col-md-6]="states.length" [class.col-12]="!states.length">
+                            <label class="form-label">Country:</label>
+                            <select class="form-select" formControlName="country" (change)="onCountryChange()">
+                                <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+                            </select>
+                            <div *ngIf="addressForm.get('country')?.touched && addressForm.get('country')?.invalid"
+                                class="text-danger">
+                                Country is required.
+                            </div>
+                        </div>
+                        <div *ngIf="states.length" class="col-md-6">
+                            <label class="form-label">State:</label>
+                            <select class="form-select" formControlName="state">
+                                <option value="">Select a state</option>
+                                <option *ngFor="let s of states" [value]="s">{{ s }}</option>
+                            </select>
+                            <div *ngIf="addressForm.get('state')?.touched && addressForm.get('state')?.invalid"
+                                class="text-danger">
+                                State is required.
+                            </div>
+                            <div *ngIf="addressForm.get('country')?.value === 'United States' && !addressForm.get('state')?.value"
+                                class="text-warning small">
+                                Please select a state for United States.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- City & Zip -->
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">City:</label>
+                            <input class="form-control" placeholder="City" formControlName="city" />
+                            <div *ngIf="addressForm.get('city')?.touched && addressForm.get('city')?.invalid"
+                                class="text-danger">
+                                City is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Zip Code:</label>
+                            <input class="form-control" placeholder="Zip" formControlName="zipCode" />
+                            <div *ngIf="addressForm.get('zipCode')?.touched && addressForm.get('zipCode')?.invalid"
+                                class="text-danger">
+                                Zip Code is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address lines -->
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Address Line 1:</label>
+                            <input class="form-control" formControlName="addressLine1" />
+                            <div *ngIf="addressForm.get('addressLine1')?.touched && addressForm.get('addressLine1')?.invalid"
+                                class="text-danger">
+                                Required.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Address Line 2:</label>
+                            <input class="form-control" formControlName="addressLine2" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- gaps helper -->
+                <div *ngIf="gaps.length">
+                    <h6 class="text-center mt-2">Address Gaps</h6>
+                    <ul class="list-group">
+                        <li *ngFor="let gap of gaps" class="list-group-item">
+                            Gap: {{ gap.startDate | date: 'MMM y' }} – {{ gap.endDate | date: 'MMM y' }}
+                            <button type="button" class="btn btn-link" (click)="fillFormWithGap(gap)">Use</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dates -->
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Start:</label>
+                            <input type="date" class="form-control" formControlName="startDate" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">End:</label>
+                            <input type="date" class="form-control" formControlName="endDate" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success" [disabled]="addressForm.invalid || !isStateValid()">
+                        {{ editIndex === null ? 'Add' : 'Update' }}
+                    </button>
+                    <p *ngIf="addressForm.invalid" class="text-danger">⚠️ The form is invalid</p>
+                    <p *ngIf="!isStateValid()" class="text-warning">⚠️ State is required for the United States</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

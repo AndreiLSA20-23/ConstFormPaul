@@ -1,0 +1,7 @@
+<div class="math-captcha">
+  <p>Solve: <span class="digit">{{ num1 }}</span> + <span class="digit">{{ num2 }}</span> = ?</p>
+  <input type="number" [(ngModel)]="userAnswer" placeholder="Your answer" />
+  <button (click)="checkAnswer()">Verify</button>
+  <p *ngIf="captchaStatus === true" class="text-success">Correct!</p>
+  <p *ngIf="captchaStatus === false" class="text-danger">Incorrect, try again.</p>
+</div>

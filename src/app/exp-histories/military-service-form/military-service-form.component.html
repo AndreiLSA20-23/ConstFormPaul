@@ -1,0 +1,81 @@
+<h5 class="mb-3">Military Service History</h5>
+<form [formGroup]="militaryServiceForm" (ngSubmit)="onSave()" class="row g-3">
+    <div class="col-md-6">
+        <label for="serviceStartDate" class="form-label">Start Date:</label>
+        <input id="serviceStartDate" formControlName="startDate" type="date" class="form-control" />
+        <div *ngIf="militaryServiceForm.get('startDate')?.touched && militaryServiceForm.get('startDate')?.invalid"
+            class="text-danger">
+            Start Date is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="serviceEndDate" class="form-label">End Date:</label>
+        <input id="serviceEndDate" formControlName="endDate" type="date" class="form-control" />
+        <div *ngIf="militaryServiceForm.get('endDate')?.touched && militaryServiceForm.get('endDate')?.invalid"
+            class="text-danger">
+            End Date is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="countryMilit" class="form-label">Country:</label>
+        <select id="countryMilit" formControlName="countryMilit" (change)="onCountryChange()" class="form-select">
+            <option value="">Select a country</option>
+            <option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+            </option>
+        </select>
+        <div *ngIf="militaryServiceForm.get('countryMilit')?.touched && militaryServiceForm.get('countryMilit')?.invalid"
+            class="text-danger">
+            Country is required.
+        </div>
+    </div>
+
+    <div class="col-md-6" *ngIf="militaryServiceForm.get('countryMilit')?.value === 'United States'">
+        <label for="stateMilit" class="form-label">State/Province:</label>
+        <select id="stateMilit" formControlName="stateMilit" class="form-select">
+            <option value="">Select a state</option>
+            <option *ngFor="let state of states" [value]="state">
+                {{ state }}
+            </option>
+        </select>
+        <div *ngIf="militaryServiceForm.get('stateMilit')?.touched && militaryServiceForm.get('stateMilit')?.invalid"
+            class="text-danger">
+            State is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="branch" class="form-label">Branch of Service:</label>
+        <input id="branch" formControlName="branch" type="text" class="form-control" />
+        <div *ngIf="militaryServiceForm.get('branch')?.touched && militaryServiceForm.get('branch')?.invalid"
+            class="text-danger">
+            Branch is required.
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="rank" class="form-label">Rank at Discharge:</label>
+        <input id="rank" formControlName="rank" type="text" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label for="dd214" class="form-label">Can you obtain your DD214?:</label>
+        <select id="dd214" formControlName="dd214" class="form-select">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div *ngIf="militaryServiceForm.get('dd214')?.touched && militaryServiceForm.get('dd214')?.invalid"
+            class="text-danger">
+            Selection is required.
+        </div>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!militaryServiceForm.valid">
+            Add data
+        </button>
+
+    </div>
+</form>
