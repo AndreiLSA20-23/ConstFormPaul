@@ -90,7 +90,7 @@ export class UserAuthComponent {
 
       try {
         // First request: check/add SSN
-        const checkResponse = await fetch('http://localhost:8000/api/check-ssn', {
+        const checkResponse = await fetch('http://64.251.23.111:8000/api/check-ssn', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
@@ -101,7 +101,7 @@ export class UserAuthComponent {
         }
 
         // Second request: create or update JSON file for this SSN
-        const fileResponse = await fetch('http://localhost:8000/api/create-or-update-json', {
+        const fileResponse = await fetch('http://64.251.23.111:8000/api/create-or-update-json', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),

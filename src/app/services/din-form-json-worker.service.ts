@@ -361,8 +361,8 @@ export class DinFormJsonWorkerService {
           }
 
 
-          console.log(`Pre-fill country (${controlName}) value:`, countryValue);
-          console.log(`Pre-fill state (${stateName}) value:`, stateValue);
+          //console.log(`Pre-fill country (${controlName}) value:`, countryValue);
+          //console.log(`Pre-fill state (${stateName}) value:`, stateValue);
           break;
         case 'yesno':
           // Если значение не найдено напрямую, пробуем найти его рекурсивно
@@ -387,7 +387,7 @@ export class DinFormJsonWorkerService {
           if (!normalizedValue) {
             normalizedValue = 'no';
           }
-          console.log(`[DinFormJsonWorkerService] Normalizing yesno: original=${JSON.stringify(startValue)}, normalized=${normalizedValue}`);
+          //console.log(`[DinFormJsonWorkerService] Normalizing yesno: original=${JSON.stringify(startValue)}, normalized=${normalizedValue}`);
           
           // Создаем пустую группу для yesno и добавляем контрол "value" и subElements
           const yesNoGroup = this.fb.group({}) as FormGroup<any>;

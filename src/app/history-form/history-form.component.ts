@@ -4,16 +4,17 @@ import {
   OnInit,
   Inject,
   PLATFORM_ID,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import {
   NgComponentOutlet,
   NgIf,
   DatePipe,
   isPlatformBrowser,
-  CommonModule
+  CommonModule,
 } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { PerdatesComponent } from '../polls/perdates/perdates.component';
 import { LicenseDetailsComponent } from '../polls/license-details/license-details.component';
 import { DriverTrainingComponent } from '../polls/driver-training/driver-training.component';
@@ -26,6 +27,7 @@ import { ReportGeneratorComponent } from '../polls/report-generator/report-gener
   selector: 'app-history',
   standalone: true,
   templateUrl: './history-form.component.html',
+  styleUrls: ['./history-form.component.scss'],
   imports: [
     NgIf,
     NgComponentOutlet,
@@ -35,22 +37,31 @@ import { ReportGeneratorComponent } from '../polls/report-generator/report-gener
     PerdatesComponent,
     LicenseDetailsComponent,
     DriverTrainingComponent,
-    ExpHistoryComponent,
     AddAddressComponent,
+    ExpHistoryComponent,
     FullResComponent,
-    ReportGeneratorComponent
+    ReportGeneratorComponent,
   ],
-  styleUrls: ['./history-form.component.scss']
 })
 export class HistoryFormComponent implements OnInit, OnDestroy {
-  apiUrl = 'http://localhost:8000/api/history';
-  responseData: any = null;
-  public index: number = 1;
-  public currentComponent: any = null;
-  public customInjector!: Injector;
-  public prefillStatusMap: Map<number, boolean> = new Map();
-  public prefillStatusReady: boolean = false;
+  /* ------------------------------------------------------------------ */
+  /*  Поля состояния                                                    */
+  /* ------------------------------------------------------------------ */
+  private readonly apiUrl = 'http://64.251.23.111:8000/api/history';
+  private readonly pollingDelay = 10_000;
 
+  responseData: any = null;
+  index = 1;
+  currentComponent: any = null;
+
+  customInjector!: Injector;
+
+  prefillStatusMap = new Map<number, boolean>();
+  prefillStatusReady = false;
+
+  private pollingInterval: any = null;
+
+  /* Порядок компонентов (index совпадает) */
   private readonly components = [
     null,
     PerdatesComponent,
@@ -59,107 +70,61 @@ export class HistoryFormComponent implements OnInit, OnDestroy {
     AddAddressComponent,
     ExpHistoryComponent,
     FullResComponent,
-    ReportGeneratorComponent
+    ReportGeneratorComponent,
   ];
 
-  private pollingInterval: any = null;
-  private readonly pollingDelay = 10000;
-
+  /* ------------------------------------------------------------------ */
   constructor(
     private injector: Injector,
-    @Inject(PLATFORM_ID) private platformId: object
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  /* ------------------------------------------------------------------ */
+  /*  ИНИЦИАЛИЗАЦИЯ                                                     */
+  /* ------------------------------------------------------------------ */
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const currentUserSSN = localStorage.getItem('currentUserSSN');
-      const currentUserBday = localStorage.getItem('currentUserBday');
-
-      this.customInjector = Injector.create({
-        providers: [
-          { provide: 'ssn', useValue: currentUserSSN },
-          { provide: 'bday', useValue: currentUserBday }
-        ],
-        parent: this.injector
-      });
-
-      this.fetchHistory(currentUserSSN);
-      this.checkAllPrefillBlocks(currentUserSSN, currentUserBday);
-      this.startPollingPrefillStatus(currentUserSSN, currentUserBday);
+    if (!isPlatformBrowser(this.platformId)) {
+      /* SSR не трогаем */
+      return;
     }
 
-    this.updateComponent();
+    const ssnFromLS = localStorage.getItem('currentUserSSN');
+    const bdayFromLS = localStorage.getItem('currentUserBday');
+
+    /*  1) Если данные уже есть → сразу строим инжектор */
+    if (ssnFromLS && bdayFromLS) {
+      this.buildInjector(ssnFromLS, bdayFromLS);
+      this.afterInjectorReady(ssnFromLS, bdayFromLS);
+    }
+
+    /*  2) В любом случае запрашиваем историю — вдруг LS был пуст */
+    this.fetchHistory().then((ok) => {
+      if (!ok) console.warn('[History] History fetch returned empty payload');
+    });
   }
 
   ngOnDestroy(): void {
     if (this.pollingInterval) clearInterval(this.pollingInterval);
   }
 
-  fetchHistory(currentUserSSN: string | null): void {
-    if (!currentUserSSN) return;
-
-    fetch(`${this.apiUrl}/${currentUserSSN}`)
-      .then((res) => res.json())
-      .then((data) => (this.responseData = data))
-      .catch(() => (this.responseData = null));
+  /* ------------------------------------------------------------------ */
+  /*  Публичные геттеры                                                  */
+  /* ------------------------------------------------------------------ */
+  canShowPrev(): boolean {
+    return this.index > 1;
   }
 
-  async checkAllPrefillBlocks(ssn: string | null, bday: string | null): Promise<void> {
-    this.prefillStatusReady = false;
-    if (!ssn || !bday) return;
-
-    const results: [number, boolean][] = [];
-
-    for (let index = 1; index < this.components.length; index++) {
-      const componentKey = this.getComponentKeyByIndex(index);
-      const url = `http://localhost:8000/api/form-data/${componentKey}/${ssn}`;
-
-      try {
-        const res = await fetch(url);
-        if (!res.ok) {
-          results.push([index, false]);
-          continue;
-        }
-        const json = await res.json();
-        const data = json?.data;
-        let isFilled = this.isComponentFilled(data);
-
-        results.push([index, isFilled]);
-      } catch (err) {
-        results.push([index, false]);
-      }
-    }
-
-    for (const [index, filled] of results) {
-      this.prefillStatusMap.set(index, filled);
-      if (index === this.index && filled) this.updateComponent();
-    }
-
-    this.prefillStatusReady = true;
+  get canProceed(): boolean {
+    return this.prefillStatusMap.get(this.index) === true;
   }
 
-  private isComponentFilled(data: any): boolean {
-    if (!data) return false;
-    if (Array.isArray(data)) return data.length > 0;
-    if (data.items && Array.isArray(data.items)) return data.items.length > 0;
-    if (typeof data === 'object') {
-      return Object.entries(data).some(([_, val]) => {
-        if (typeof val === 'object') return this.isComponentFilled(val);
-        if (typeof val === 'boolean') return true;
-        return val !== '' && val !== null && val !== undefined;
-      });
-    }
-    return false;
+  get completionProgress(): number {
+    return Math.round((this.index / (this.components.length - 1)) * 100);
   }
 
-  private startPollingPrefillStatus(ssn: string | null, bday: string | null): void {
-    if (!ssn || !bday) return;
-
-    this.pollingInterval = setInterval(() => {
-      this.checkAllPrefillBlocks(ssn, bday);
-    }, this.pollingDelay);
-  }
-
+  /* ------------------------------------------------------------------ */
+  /*  Навигация                                                          */
+  /* ------------------------------------------------------------------ */
   next(): void {
     if (this.canProceed) {
       this.index++;
@@ -174,32 +139,148 @@ export class HistoryFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateComponent(): void {
-    this.currentComponent = this.components[this.index] || null;
+  /* ------------------------------------------------------------------ */
+  /*  Основная логика                                                    */
+  /* ------------------------------------------------------------------ */
+
+  /** Загружает историю, возвращает true, если получили SSN/Bday */
+  private async fetchHistory(): Promise<boolean> {
+    const lsSSN = localStorage.getItem('currentUserSSN');
+    if (!lsSSN) return false;
+
+    try {
+      const res = await fetch(`${this.apiUrl}/${lsSSN}`);
+      if (!res.ok) return false;
+
+      const data = await res.json();
+      this.responseData = data;
+
+      const realSSN = data?.data?.ssn;
+      const realBday = data?.data?.bday;
+
+      if (realSSN && realBday) {
+        /* кладём в LS, чтобы другие вкладки тоже увидели  */
+        localStorage.setItem('currentUserSSN', realSSN);
+        localStorage.setItem('currentUserBday', realBday);
+
+        /* если инжектор ещё не собран или был пустым → создаём заново */
+        if (!this.customInjector) {
+          this.buildInjector(realSSN, realBday);
+          this.afterInjectorReady(realSSN, realBday);
+        }
+        return true;
+      }
+    } catch {
+      /* silent */
+    }
+    return false;
   }
 
-  canShowPrev(): boolean {
-    return this.index > 1;
+  /** Создаёт DI-контейнер с токенами ssn/bday */
+  private buildInjector(ssn: string, bday: string): void {
+    this.customInjector = Injector.create({
+      providers: [
+        { provide: 'ssn', useValue: ssn },
+        { provide: 'bday', useValue: bday },
+      ],
+      parent: this.injector,
+    });
   }
 
-  get canProceed(): boolean {
-    return this.prefillStatusMap.get(this.index) === true;
+  /** Всё, что должно выполняться, когда токены гарантированы */
+  private afterInjectorReady(ssn: string, bday: string): void {
+    /*  рендерим */
+    this.updateComponent();
+
+    /*  запускаем проверки */
+    this.checkAllPrefillBlocks(ssn, bday);
+    this.startPollingPrefillStatus(ssn, bday);
   }
 
-  get completionProgress(): number {
-    return Math.round((this.index / (this.components.length - 1)) * 100);
+  /** Перерисовывает текущий подкомпонент */
+  private updateComponent(): void {
+    this.currentComponent = this.components[this.index] ?? null;
   }
 
+  /* ------------------------------------------------------------------ */
+  /*  Проверка заполненности блоков                                     */
+  /* ------------------------------------------------------------------ */
+  private async checkAllPrefillBlocks(
+    ssn: string,
+    bday: string
+  ): Promise<void> {
+    this.prefillStatusReady = false;
+
+    const results: [number, boolean][] = [];
+
+    for (let idx = 1; idx < this.components.length; idx++) {
+      const key = this.getComponentKeyByIndex(idx);
+      const url = `http://64.251.23.111:8000/api/form-data/${key}/${ssn}`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          results.push([idx, false]);
+          continue;
+        }
+        const json = await res.json();
+        results.push([idx, this.isComponentFilled(json?.data)]);
+      } catch {
+        results.push([idx, false]);
+      }
+    }
+
+    /* Сохраняем карту и перерисовываем, если текущий шаг стал доступен */
+    for (const [idx, filled] of results) {
+      this.prefillStatusMap.set(idx, filled);
+      if (idx === this.index && filled) this.updateComponent();
+    }
+
+    this.prefillStatusReady = true;
+  }
+
+  private isComponentFilled(data: any): boolean {
+    if (!data) return false;
+    if (Array.isArray(data)) return data.length > 0;
+    if (data.items && Array.isArray(data.items)) return data.items.length > 0;
+    if (typeof data === 'object') {
+      return Object.values(data).some((v) => {
+        if (typeof v === 'object') return this.isComponentFilled(v);
+        if (typeof v === 'boolean') return true;
+        return v !== '' && v !== null && v !== undefined;
+      });
+    }
+    return false;
+  }
+
+  private startPollingPrefillStatus(ssn: string, bday: string): void {
+    this.pollingInterval = setInterval(
+      () => this.checkAllPrefillBlocks(ssn, bday),
+      this.pollingDelay
+    );
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Утилиты                                                            */
+  /* ------------------------------------------------------------------ */
   private getComponentKeyByIndex(index: number): string {
     switch (index) {
-      case 1: return 'app-perdates';
-      case 2: return 'app-license-details';
-      case 3: return 'app-driver-training';
-      case 4: return 'add-address';
-      case 5: return 'experience-history';
-      case 6: return 'app-full-res';
-      case 7: return 'app-report-generator';
-      default: return '';
+      case 1:
+        return 'app-perdates';
+      case 2:
+        return 'app-license-details';
+      case 3:
+        return 'app-driver-training';
+      case 4:
+        return 'add-address';
+      case 5:
+        return 'experience-history';
+      case 6:
+        return 'app-full-res';
+      case 7:
+        return 'app-report-generator';
+      default:
+        return '';
     }
   }
 }

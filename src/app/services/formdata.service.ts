@@ -8,7 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class FormDataService {
   // Новый единый эндпоинт для создания/обновления JSON
-  private upsertUrl = 'http://localhost:8000/api/create-or-update-json';
+  private upsertUrl = 'http://64.251.23.111:8000/api/create-or-update-json';
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ export class FormDataService {
    * GET /forms/:sectionName
    */
   loadFormData(formSection: string): Observable<any> {
-    const url = `http://localhost:8000/api/forms/${formSection}`;
+    const url = `http://64.251.23.111:8000/api/forms/${formSection}`;
     console.info(`[FormDataService] loadFormData: Sending GET request to ${url}`);
     return this.http.get(url).pipe(
       map(response => {
@@ -115,7 +115,7 @@ export class FormDataService {
    * В этом примере оставляем метод как есть, если он понадобится отдельно.
    */
   editPartialFormData(formSection: string, data: any): Observable<any> {
-    const url = `http://localhost:8000/api/forms/${formSection}/edit`;
+    const url = `http://64.251.23.111:8000/api/forms/${formSection}/edit`;
     console.info(`[FormDataService] editPartialFormData: Received data for partial edit in "${formSection}":`, data);
     console.info(`[FormDataService] editPartialFormData: Sending PATCH request to ${url}`);
     return this.http.patch(url, data).pipe(

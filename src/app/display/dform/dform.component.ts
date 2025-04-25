@@ -23,6 +23,7 @@ import {
 } from '../../services/din-form-json-worker.service';
 import { FormDataService } from '../../services/formdata.service';
 import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs/operators';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -118,147 +119,95 @@ export class DformComponent extends BaseComponent implements OnInit, OnDestroy {
     this.loadRequirements();
 
     // 2) Подгружаем префилл данных — слегка откладываем, чтобы форма успела создаться
-    setTimeout(() => {
-      this.loadPrefillData();
-    }, 0);
+    //setTimeout(() => {
+    //  this.loadPrefillData();
+    //}, 0);
+    this.requirementsReady$
+      .pipe(take(1))               // берём событие один раз
+      .subscribe(() => this.loadPrefillData());
   }
 
 
 
 private loadPrefillData(): void {
+  /* ---------- 0. SSN обязателен ---------- */
   if (!this.ssn) {
     console.error('[DformComponent] Prefill: SSN not found.');
     return;
   }
 
-  const url = `http://localhost:8000/api/form-data/${this.componentName}/${this.ssn}`;
-  //console.log('[DformComponent] Loading prefill data from:', url);
+  const url = `http://64.251.23.111:8000/api/form-data/${this.componentName}/${this.ssn}`;
 
-  // 1. Ставим таймер на 10с. Если ответа не будет, покажем пустую форму
+  /* ---------- 1. fallback-таймер 10 с ---------- */
   this.fallbackTimer = setTimeout(() => {
-    console.warn('[DformComponent] Prefill request timed out — showing blank form.');
-    // (не обязательно) Очищаем/сбрасываем форму:
-    if (this.form instanceof FormGroup) {
-      // this.form.reset();
-      // Или оставляем как есть
-    } else if (this.form instanceof FormArray) {
-      // while (this.form.length > 0) {
-      //   this.form.removeAt(0);
-      // }
-    }
-    this.isReady = true;  // Разрешаем рендер
+    console.warn('[DformComponent] Prefill timeout – blank form shown');
+    this.isReady = true;
     this.cd.detectChanges();
-  }, 10000); // 10000 мс = 10 сек. Можно 5000 (5 сек), как пожелаете.
+  }, 10_000);
 
-  this.http.get(url).subscribe({
-    next: (response: any) => {
-      // Раз пришёл ответ — снимаем таймер
+  /* ---------- 2. запрос ---------- */
+  this.http.get<{ data?: any }>(url).subscribe({
+    next: ({ data }) => {
       clearTimeout(this.fallbackTimer);
 
-      // 2. Проверяем, есть ли вообще что-то в response.data
-      if (!response || !response.data) {
-        console.log('[DformComponent] Empty prefill => считаем новую анкету');
-        // Можно принудительно "очистить" или оставить форму без изменений
-        // if (this.form instanceof FormGroup) {
-        //   this.form.reset();
-        // }
-        // if (this.form instanceof FormArray) {
-        //   // Очищаем массив
-        //   while (this.form.length > 0) {
-        //     this.form.removeAt(0);
-        //   }
-        // }
-        // Далее ставим флаги, что у нас новая/пустая
+      /* 2-a. пустой ответ ⇒ новая анкета */
+      if (!data) {
+        this.isReady = true;
+        this.cd.detectChanges();
+        return;
+      }
+
+      /* ---------- 3. одиночная форма ---------- */
+      if (this.form instanceof FormGroup) {
+
+        /* 3-a. контрол state должен существовать ДО patchValue */
+        if (!this.form.contains('state')) {
+          this.form.addControl('state', new FormControl(''));
+        }
+
+        /* 3-b. кладём префилл за один шаг */
+        this.form.patchValue(data);
+
+        /* 3-c. приводим country/state в порядок */
+        this.initializeCountryAndState();
+
         this.cd.detectChanges();
         this.isReady = true;
         return;
       }
 
-      // Если данные не пустые — идём по вашей логике
-      // --------------------------------------------------
-      if (this.form instanceof FormGroup) {
-        //console.log('[DformComponent] Single form - patching data...');
+      /* ---------- 4. FormArray (менеджер) ---------- */
+      if (this.form instanceof FormArray) {
+        const items: any[] = Array.isArray(data.items) ? data.items : [];
 
-        // -- Добавляем контрол "state", если его нет --
-        if (!this.form.contains('state')) {
-          this.form.addControl('state', new FormControl(''));
-        }
+        /* 4-a. очищаем массив */
+        this.form.clear();                             // Angular ≥17
 
-        // Патчим данные
-        this.form.patchValue(response.data);
+        /* 4-b. добавляем элементы с инициализацией */
+        items.forEach((item, idx) => {
+          const fg = this.dinFormService.generateSingleFormGroup(
+                      this.processedData,
+                      { skipDefaults: false, initialValues: item });
+          (this.form as FormArray).push(fg);
+          this.initializeCountryAndState(idx);
+        });
 
-        // Ждём, пока Angular применит значения в контролах
-        setTimeout(() => {
-          const country = this.form.get('country')?.value;
-          const stVal = this.form.get('state')?.value;
-          //console.log('[DformComponent] After patchValue — country:', country, 'state:', stVal);
-
-          this.cd.detectChanges(); // ⏳ дожимаем рендер
-
-          // Запускаем логику добавления и установки state
-          setTimeout(() => {
-            //console.log('[DformComponent] 🌍 Initializing country/state logic...');
-            this.initializeCountryAndState(); // здесь добавится контрол state (если страна требует)
-
-            // Проверим, что контрол действительно добавлен
-            setTimeout(() => {
-              const stateControl = this.form.get('state');
-              //console.log('[DformComponent] ✅ Final state control:', stateControl);
-              if (stateControl) {
-                //console.log('[DformComponent] 🟢 Final state value:', stateControl.value);
-              } else {
-                //console.warn('[DformComponent] ⚠️ State control is STILL missing');
-              }
-              this.cd.detectChanges();
-            }, 0);
-          }, 0);
-        }, 0);
+        this.isSingleFormView = items.length === 0;
+        this.isSurveySaved    = items.length > 0;
+        this.cd.detectChanges();
+        this.isReady = true;
       }
-
-      else if (this.form instanceof FormArray) {
-        //console.log('[DformComponent] FormArray - applying prefill items...');
-        const arrayData = response.data.items;
-
-        if (Array.isArray(arrayData) && arrayData.length > 0) {
-          // Очищаем текущий FormArray
-          while ((this.form as FormArray).length > 0) {
-            (this.form as FormArray).removeAt(0);
-          }
-          // Для каждого элемента делаем singleFormGroup и пушим
-          arrayData.forEach((item: any, i: number) => {
-            const newFg = this.dinFormService.generateSingleFormGroup(this.processedData, {
-              skipDefaults: false,
-              initialValues: item
-            });
-            (this.form as FormArray).push(newFg);
-            // Инициализация страны/штата
-            this.initializeCountryAndState(i);
-          });
-          this.cd.detectChanges();
-          this.isSingleFormView = false;
-          this.isSurveySaved = true;
-          //console.log('[DformComponent] FormArray: items loaded, manager view enabled.');
-        } else {
-          // Пусто => остаёмся в single form view
-          //console.log('[DformComponent] FormArray: no items found, single form view remains.');
-        }
-      }
-      // --------------------------------------------------
-
-      this.cd.detectChanges();
-      this.isReady = true;
-
     },
-    error: (error: any) => {
-      //console.error('[DformComponent] Prefill error:', error);
+
+    error: err => {
       clearTimeout(this.fallbackTimer);
-      // this.toastr.error('Failed to load prefill data.');
-      // Считаем, что данных нет => новая форма / или показываем что-то
+      console.error('[DformComponent] Prefill error:', err);
       this.isReady = true;
       this.cd.detectChanges();
     }
   });
 }
+
 
 
   // ----------------------------------------------------------------------------

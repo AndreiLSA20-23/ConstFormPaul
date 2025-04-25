@@ -59,7 +59,7 @@ export class AddAddressComponent implements OnInit, AfterViewChecked {
       console.warn('[AddAddress] no SSN for prefill');
       return;
     }
-    const url = `http://localhost:8000/api/form-data/add-address/${this.ssn}`;
+    const url = `http://64.251.23.111:8000/api/form-data/add-address/${this.ssn}`;
     //console.log('[AddAddress] Loading prefill from:', url);
     this.http.get<any>(url).subscribe({
       next: (resp) => {
@@ -220,7 +220,7 @@ export class AddAddressComponent implements OnInit, AfterViewChecked {
     };
     //console.log('[AddAddress] will persist payload:', payload);
     this.http.post(
-      `http://localhost:8000/api/create-or-update-json`,
+      `http://64.251.23.111:8000/api/create-or-update-json`,
       payload
     ).subscribe({
       next: ()   => console.log('[AddAddress] addresses saved'),

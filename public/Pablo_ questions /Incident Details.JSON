@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IncidentDetails",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["violation_post_save"]
+    },
+    "violation_month": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 12
+    },
+    "violation_year": {
+      "type": ["integer", "null"],
+      "minimum": 1900,
+      "maximum": 2100
+    },
+    "violation_charge": {
+      "type": ["string", "null"],
+      "enum": [
+        "Careless/Reckless Driving",
+        "Driving Without A License",
+        "DUI/OWI",
+        "Failure to Obey Signal",
+        "Following Too Closely",
+        "Improper Lane Change",
+        "Seat Belt",
+        "Speeding",
+        "Too Fast for Conditions",
+        "Violation Resulting from Accident",
+        "Driving with Suspended License",
+        "Failure to Report Accident",
+        "Failure to Yield",
+        "Improper Passing",
+        "Improper Turn",
+        "Improper Backing",
+        "No Insurance / Proof of Insurance",
+        "Leaving Scene of Accident",
+        "Defective Equipment",
+        "Hazmat Violation",
+        "Lane Violation",
+        "Overweight",
+        "Cell Phone Usage",
+        "Texting While Driving",
+        "Inattentive Driving",
+        "Hours of Service",
+        "Other"
+      ]
+    },
+    "mph_over_limit": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "violation_state": {
+      "type": ["string", "null"],
+      "enum": [
+        "AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","GU","HI","ID","IL",
+        "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV",
+        "NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","PR","RI","SC","SD","TN",
+        "TX","UT","VT","VA","WA","WV","WI","WY",
+        "AB","BC","MB","NB","NL","NT","NS","NU","ON","PE","QC","SK"
+      ]
+    },
+    "commercial_vehicle": {
+      "type": ["string", "null"],
+      "enum": ["y", "n"]
+    },
+    "penalty_fine":        {"type": "boolean"},
+    "penalty_suspension":  {"type": "boolean"},
+    "penalty_revocation":  {"type": "boolean"},
+    "penalty_community_service": {"type": "boolean"},
+    "penalty_other":       {"type": "boolean"},
+    "fine_amount": {
+      "type": ["string", "null"],
+      "enum": [
+        "$0 - $99",
+        "$100 - $199",
+        "$200 - $299",
+        "$300 - $399",
+        "$400 - $499",
+        "$500+"
+      ]
+    },
+    "comments": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": [
+    "mode",
+    "violation_month",
+    "violation_year",
+    "violation_charge",
+    "violation_state",
+    "commercial_vehicle"
+  ],
+  "additionalProperties": false
+}

@@ -1,4 +1,5 @@
 import { Directive, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Subject } from 'rxjs'; 
 import {
   FormGroup,
   FormControl,
@@ -15,6 +16,9 @@ import {
 
 @Directive()
 export abstract class BaseComponent implements OnInit {
+
+
+  protected requirementsReady$ = new Subject<void>();
   // Обработанные данные, полученные из JSON
   processedData!: FormComponentData;
 
@@ -236,6 +240,8 @@ export abstract class BaseComponent implements OnInit {
         }
         this.isLoading = false;
         this.cd.detectChanges();
+        this.requirementsReady$.next();
+        this.requirementsReady$.complete(); 
       },
       error: (err) => {
         this.errorMessage = 'Failed to load data.';

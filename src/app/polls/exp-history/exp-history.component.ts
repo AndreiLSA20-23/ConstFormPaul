@@ -84,7 +84,7 @@ export class ExpHistoryComponent implements OnInit {
       this.calculateGaps();
       return;
     }
-    const url = `http://localhost:8000/api/form-data/experience-history/${this.ssn}`;
+    const url = `http://64.251.23.111:8000/api/form-data/experience-history/${this.ssn}`;
     this.http.get<{ data: any[] }>(url).subscribe({
       next: resp => {
         this.processedHistories = Array.isArray(resp.data) ? resp.data : [];
@@ -248,7 +248,7 @@ export class ExpHistoryComponent implements OnInit {
       additional_data: { 'experience-history': this.processedHistories }
     };
     this.http.post(
-      'http://localhost:8000/api/create-or-update-json',
+      'http://64.251.23.111:8000/api/create-or-update-json',
       payload
     ).subscribe({
       next: () => {
